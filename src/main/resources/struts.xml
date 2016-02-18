@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+
+	<package name="init" namespace="/" extends="struts-default">
+		<action name="init" class="com.erp.common.action.InitAction">
+			<result name="success">/jsp/login.jsp</result>
+		</action>
+		<action name="login" class="com.erp.common.action.LoginAction"
+			method="login">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/common</param>
+				<param name="actionName">index</param>
+			</result>
+			<result name="error">/jsp/login.jsp</result>
+		</action>
+	</package>
+	
+	<include file="common/struts-common.xml" />
+</struts>
