@@ -23,12 +23,8 @@
 	</div>
  	<div class="collapsed">
 		<span>基础资料</span>
-		   <a href="#">放款统计</a>
-		   <a href="#">综合统计</a>
-		   <a href="#">司机提成</a>
-		   <a href="#">收款详单</a>
-		   <a href="#">每日汇总</a>
-		   <a href="#">车辆运费</a>
+		   <a href="<%=request.getContextPath()%>/common/productGroupInit.action">货品分类</a>
+		   <a href="<%=request.getContextPath()%>/common/productTypeInit.action">货品资料</a>
 	</div>
  	<div class="collapsed">
 		<span>系统设置</span>

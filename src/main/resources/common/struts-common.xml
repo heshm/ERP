@@ -6,13 +6,44 @@
 	<package name="common" namespace="/common" extends="tiles-default">
 
 
-		<action name="index" class="com.erp.common.action.IndexAction"
-			method="init">
+		<action name="indexInit" class="com.erp.common.action.IndexAction" method="init">
 			<result name="success" type="tiles">main.index</result>
 			<result name="error">/jsp/error.jsp</result>
-			<interceptor-ref name="defaultStack" />
 		</action>
 		
+		<action name="productGroupInit" class="com.erp.common.action.ProductGroupAction" method="init">
+		    <result name="success" type="tiles">productGroupInit</result>
+		</action>
+		
+		<action name="productGroupModiInit" class="com.erp.common.action.ProductGroupModiAction" method="init">
+		    <result name="success">/jsp/common/productGroupModi.jsp</result>
+		</action>
+		
+		<action name="productGroupModi" class="com.erp.common.action.ProductGroupModiAction" method="modi">
+		    <result name="success" type="redirectAction">
+				<param name="namespace">/common</param>
+				<param name="actionName">productGroupInit</param>
+			</result>
+		</action>
+		
+		<action name="productGroupDelete" class="com.erp.common.action.ProductGroupModiAction" method="delete">
+		    <result name="success" type="redirectAction">
+				<param name="namespace">/common</param>
+				<param name="actionName">productGroupInit</param>
+			</result>
+		</action>
+		
+		<action name="productTypeInit" class="com.erp.common.action.ProductTypeAction" method="init">
+		    <result name="success" type="tiles">productType.index</result>
+		</action>
+		
+		<action name="productTypeQuery" class="com.erp.common.action.ProductTypeAction" method="query">
+		    <result name="success" type="tiles">productType.index</result>
+		</action>
+		
+		<action name="productTypeModiInit" class="com.erp.common.action.ProductTypeModiAction" method="init">
+		    <result name="success">/jsp/common/productTypeModi.jsp</result>
+		</action>
 		
 	</package>
 </struts>

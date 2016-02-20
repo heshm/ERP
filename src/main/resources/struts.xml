@@ -17,7 +17,7 @@
 			method="login">
 			<result name="success" type="redirectAction">
 				<param name="namespace">/common</param>
-				<param name="actionName">index</param>
+				<param name="actionName">indexInit</param>
 			</result>
 			<result name="error">/jsp/login.jsp</result>
 		</action>

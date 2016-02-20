@@ -26,6 +26,8 @@ public class LoginAction extends ActionSupport{
 		token.setRememberMe(false);
 		
 		try{
+			System.out.println("Login called");
+			System.out.println(token.getPassword());
 			subject.login(token);
 		}catch(AuthenticationException e){
 			this.addActionError(Const.LOGIN_ERROR_MESSAGE);
@@ -46,16 +48,6 @@ public class LoginAction extends ActionSupport{
 	}
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
-	}
-	
-	private IUserService userService;
-
-	public IUserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
 	}
 
 }

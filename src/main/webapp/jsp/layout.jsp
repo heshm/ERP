@@ -9,7 +9,7 @@
 <title>仓库管理系统</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/css.css" />
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery1.9.0.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/sdmenu.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/laydate/laydate.js"></script>
@@ -47,7 +47,7 @@
 </div>
     
 <!-- 底部 -->
-<div id="footer">版权所有：仓库管理 &copy; 2015&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.mycodes.net/" target="_blank">源码之家</a></div>
+<div id="footer">版权所有：仓库管理 &copy; 2015&nbsp;&nbsp;&nbsp;&nbsp;</div>
     
     
 
