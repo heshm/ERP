@@ -116,5 +116,6 @@
     </bean>
 	
 	<import resource="classpath:common/context-common.xml"/>
+	<import resource="classpath:stm/context-stm.xml"/>
 	
 </beans>

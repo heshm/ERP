@@ -11,30 +11,27 @@ $(document).ready(function(){
 	    $(this).removeData("modal");
 	});
 });
-function showProductTypeModiModel(){
-	$("#productTypeModiModel").modal({
-	    remote: "<%=request.getContextPath()%>/common/productTypeModiInit",
-	    backdrop: 'static', 
-	    keyboard: false
-	});
-}
 function queryProductType(){
 	document.queryForm.submit();
+}
+function updateOneProductType(commodityType){
+	var htmlAddress = "productTypeModiInit.action?isUpdate=1&commodityType=" + commodityType;
+	location.href = htmlAddress;
+}
+function deleteOneProductType(commodityType){
+	var htmlAddress = "productTypeDelete.action?commodityType=" + commodityType;
+	if (confirm("确认删除该条记录?")){
+		document.queryForm.action = htmlAddress;
+		document.queryForm.submit();
+	}
+	
 }
 </script>
 </head>
 <div class="title_right">
-  <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="javascript:showProductTypeModiModel();" role="button"><i class="icon-plus icon-white"></i>添加货品类别</a></span>
+  <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="productTypeModiInit?isUpdate=0" role="button"><i class="icon-plus icon-white"></i>添加货品类别</a></span>
   <strong>货品资料管理</strong>
 </div>  
-<div id="productTypeModiModel" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:600px; margin-left:-300px; top:20%">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	<h3 id="myModalLabel">货品类别</h3>
-  </div>
-  <div class="modal-body">
-  </div>
-</div>
 <div style="width:900px; margin:auto">
   <s:form name="queryForm" method="post" action="productTypeQuery" namespace="/common" theme="simple">
   <table class="table table-bordered">
@@ -84,7 +81,10 @@ function queryProductType(){
         <td nowrap="nowrap"><s:property value="#productType.refOutPrice"/></td>
         <td nowrap="nowrap"><s:property value="#productType.decNo"/></td>
         <td nowrap="nowrap"><s:property value="#productType.remark"/></td>
-        <td nowrap="nowrap"><a href="#">删除</a> <a href="#">编辑</a></td>
+        <td nowrap="nowrap">
+          <a href="javascript:deleteOneProductType('<s:property value="#productType.groupId"/><s:property value="#productType.typeId"/>');">删除</a> 
+          <a href="javascript:updateOneProductType('<s:property value="#productType.groupId"/><s:property value="#productType.typeId"/>');">编辑</a>
+        </td>
       </tr>
       <s:set var="sn" value="#sn + 1" />  
       </s:iterator>

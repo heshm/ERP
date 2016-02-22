@@ -18,15 +18,21 @@
     <definition name="productType.index" extends="main.index">
         <put-attribute name="main" value="/jsp/common/productType.jsp"/>
     </definition>
- 
-    <!--  
+    
+    <definition name="productTypeModi.index" extends="main.index">
+        <put-attribute name="main" value="/jsp/common/productTypeModi.jsp"/>
+    </definition>
+    
+    <definition name="receipt.index" extends="main.index">
+        <put-attribute name="main" value="/jsp/stm/receiptBill.jsp"/>
+    </definition>
+    
+    
     <definition name="main.index" template="/jsp/layout.jsp">
-        <put-attribute name="title" value="欢迎使用系统"/>
         <put-attribute name="menu" value="/jsp/menu.jsp"/>
         <put-attribute name="head" value="/jsp/head.jsp"/>
-        <put-attribute name="main" value="/jsp/welcome.jsp"/>
+        <put-attribute name="main" value="/jsp/index.jsp"/>
     </definition>
-    -->
     
     
 </tiles-definitions>

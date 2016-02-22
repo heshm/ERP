@@ -11,7 +11,7 @@
 	</div>
 	<div class="collapsed">
 		<span>入库登记</span>
-		 <a href="#">采购入库</a>
+		 <a href="<%=request.getContextPath()%>/stm/receiptBillInit.action?docketType=1">采购入库</a>
 		 <a href="#">生产入库</a>
 	</div>
     

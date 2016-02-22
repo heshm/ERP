@@ -7,10 +7,13 @@
 
 	<typeAliases>
 		<package name="com.erp.common.model" />
+		<package name="com.erp.stm.model" />
 
 	</typeAliases>
 	<mappers>
+	    <mapper resource="common/sql-page.xml" />
 		<mapper resource="common/sql-common.xml" />
+		<mapper resource="stm/sql-stm.xml" />
 	</mappers>
 
 </configuration>	

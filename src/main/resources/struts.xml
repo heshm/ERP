@@ -24,4 +24,5 @@
 	</package>
 	
 	<include file="common/struts-common.xml" />
+	<include file="stm/struts-stm.xml" />
 </struts>

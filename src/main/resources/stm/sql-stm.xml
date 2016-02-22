@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stm">
+
+    <resultMap id="ReceiptResultMap" type="Receipt">
+
+        <id column="DEPOT_ID" jdbcType="CHAR" property="depotId" />
+        <id column="RECEIPT_NO" jdbcType="CHAR" property="receiptNo" />
+        <result column="TYPE" jdbcType="CHAR" property="type" />
+        <result column="STATUS" jdbcType="CHAR" property="status" />
+        <result column="REGISTRANT" jdbcType="CHAR" property="registrant" />
+        <result column="AUDITOR" jdbcType="CHAR" property="auditor" />
+        <result column="SUPPLIER" jdbcType="VARCHAR" property="supplier" />
+        <result column="WRITE_DATE" jdbcType="TIMESTAMP" property="writeDate" />
+        <result column="CONFIRM_DATE" jdbcType="TIMESTAMP" property="confirmDate" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+    
+    <sql id="ReceiptColumn">
+        DEPOT_ID, RECEIPT_NO, TYPE, STATUS, REGISTRANT, AUDITOR, 
+        SUPPLIER, WRITE_DATE, CONFIRM_DATE, REMARK
+    </sql>
+    
+    <sql id="ReceiptWhere">
+        <where>
+            <if test="depotId != null and depotId != ''">
+	            DEPOT_ID = #{depotId,jdbcType=CHAR}
+	        </if>
+	        <if test="receiptNo != null and receiptNo != ''">
+	            AND RECEIPT_NO = #{receiptNo,jdbcType=CHAR}
+	        </if>
+	        <if test="type != null and type != ''">
+	            AND TYPE = #{type,jdbcType=CHAR}
+	        </if>
+	        <if test="startDate != null and startDate != ''">
+	            AND DATE_FORMAT(WRITE_DATE,'%Y-%m-%d') &gt;= #{startDate,jdbcType=TIMESTAMP}
+	        </if>
+	        <if test="endDate != null and endDate != ''">
+	            AND DATE_FORMAT(WRITE_DATE,'%Y-%m-%d') &lt;= #{endDate,jdbcType=TIMESTAMP}
+	        </if>
+	        <if test="status != null and status != ''">
+	            AND STATUS = #{status,jdbcType=CHAR}
+	        </if>
+        </where> 
+    </sql>
+    
+    <select id="selectMulReceipt" parameterType="map" resultMap="ReceiptResultMap">
+        SELECT 
+          <include refid="ReceiptColumn" />
+        FROM TB_RECEIPT
+        <include refid="ReceiptWhere" />
+    </select>
+    
+    <select id="selectReceiptPageData" parameterType="map" resultMap="ReceiptResultMap">
+        <include refid="page.pageSelectList" />
+        SELECT 
+          <include refid="ReceiptColumn" />
+        FROM TB_RECEIPT
+        <include refid="ReceiptWhere" />
+        <include refid="page.pageWhereList" />
+    </select>
+    
+    <select id="selectReceiptPageCnt" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TB_RECEIPT
+        <include refid="ReceiptWhere" />
+    </select>
+    
+</mapper>

@@ -8,10 +8,6 @@ import com.erp.common.IDAO.IProductGroupDAO;
 import com.erp.common.model.ProductGroup;
 
 public class ProductGroupDAO implements IProductGroupDAO {
-	private static final String SELECT_ONE_PRODUCT_GROUP = "selectOneProductGroup";
-	private static final String SELECT_ALL_PRODUCT_GROUP = "selectAllProductGroup";
-	private static final String INSERT_ONE_PRODUCT_GROUP = "insertOneProductGroup";
-	private static final String DELETE_ONE_PRODUCT_GROUP = "deleteOneProductGroup";
 	
     private SqlSession sqlSession;
 	
@@ -26,8 +22,6 @@ public class ProductGroupDAO implements IProductGroupDAO {
 	public List<ProductGroup> selectAllProductGroup() {
 		return sqlSession.selectList(SELECT_ALL_PRODUCT_GROUP);
 	}
-	
-	
 
 	public int insertOneProductGroup(ProductGroup productGroup) {
 		return sqlSession.insert(INSERT_ONE_PRODUCT_GROUP, productGroup);

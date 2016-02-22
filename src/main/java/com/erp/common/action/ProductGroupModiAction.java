@@ -15,8 +15,6 @@ public class ProductGroupModiAction extends CmAction{
 	}
 	
 	public String modi(){
-		//System.out.println(groupId);
-		//System.out.println(groupName);
 		ProductGroup productGroup = new ProductGroup();
 		productGroup.setGroupId(groupId);
 		productGroup.setGroupName(groupName);

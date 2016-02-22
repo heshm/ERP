@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="stm" namespace="/stm" extends="tiles-default">
+		<action name="receiptBillInit" class="com.erp.stm.action.ReceiptBillAction" method="init">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/stm</param>
+				<param name="actionName">receiptBillQuery</param>
+				<param name="startDate">${startDate}</param>
+				<param name="endDate">${endDate}</param>
+			</result>
+		</action>
+		
+		<action name="receiptBillQuery" class="com.erp.stm.action.ReceiptBillAction" method="query">
+			<result name="success" type="tiles">receipt.index</result>
+		</action>
+		
+		
+		
+	</package>
+</struts>

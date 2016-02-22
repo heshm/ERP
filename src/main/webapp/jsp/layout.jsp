@@ -48,14 +48,6 @@
     
 <!-- 底部 -->
 <div id="footer">版权所有：仓库管理 &copy; 2015&nbsp;&nbsp;&nbsp;&nbsp;</div>
-    
-    
-
- <script>
-!function(){
-    laydate.skin('molv');
-    laydate({elem: '#Calendar'});
-}();
-</script>
+ 
 </body>
-</html>
+</html>  

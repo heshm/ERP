@@ -7,8 +7,6 @@ import com.erp.common.model.User;
 
 public class UserDAO implements IUserDAO{
 	
-	private static final String SELECT_ONE_USER = "selectOneUser";
-	
     private SqlSession sqlSession;
 	
 	public SqlSession getSqlSession() {

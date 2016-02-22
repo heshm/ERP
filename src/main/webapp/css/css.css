@@ -47,3 +47,12 @@ div.sdmenu div a.current:hover{background:#38A3D5 url(../img/171.png) no-repeat 
 .title_right{ font-size:12px;font-family:"microsoft yahei"; border-bottom:1px solid #ddd; margin-bottom:20px; line-height:30px;}
 .title_right strong{ border-bottom:1px solid #F60;line-height:30px; display:inline-block; padding:0 10px; margin-bottom:-1px;}
 .breadcrumb{ margin:-10px -10px 5px -30px; padding-left:35px;}
+.actionmessage li{
+	list-style:none;
+	text-align:center; 
+}
+.actionerror li{
+	list-style:none;
+	text-align:center; 
+	color: red;
+}

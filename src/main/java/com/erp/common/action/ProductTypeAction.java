@@ -17,6 +17,8 @@ public class ProductTypeAction extends CmAction{
 	
 	private String productName;
 	
+	private String commodityType;
+	
 	public String init(){
 		productTypeList = productTypeService.getMulProductType(new HashMap<String,String>());
 		return SUCCESS;
@@ -24,10 +26,25 @@ public class ProductTypeAction extends CmAction{
 	
 	public String query(){
 		Map<String,String> map = new HashMap<String,String>();
-		System.out.println("groupId:"+groupId);
+		//System.out.println("groupId:"+groupId);
 		map.put("groupId", groupId);
 		map.put("name", productName);
 		productTypeList = productTypeService.getMulProductType(map);
+		return SUCCESS;
+	}
+	
+	public String delete(){
+		//System.out.println(commodityType);
+		Map<String,String> delMap = new HashMap<String,String>();
+		delMap.put("groupId", commodityType.substring(0,2));
+		delMap.put("typeId", commodityType.substring(2));
+		productTypeService.deleteOneProductType(delMap);
+		
+		Map<String,String> selMap = new HashMap<String,String>();
+		//System.out.println("groupId:"+groupId);
+		selMap.put("groupId", groupId);
+		selMap.put("name", productName);
+		productTypeList = productTypeService.getMulProductType(selMap);
 		return SUCCESS;
 	}
 
@@ -61,6 +78,14 @@ public class ProductTypeAction extends CmAction{
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public String getCommodityType() {
+		return commodityType;
+	}
+
+	public void setCommodityType(String commodityType) {
+		this.commodityType = commodityType;
 	}
 
 }

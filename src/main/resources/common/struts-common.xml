@@ -41,9 +41,23 @@
 		    <result name="success" type="tiles">productType.index</result>
 		</action>
 		
-		<action name="productTypeModiInit" class="com.erp.common.action.ProductTypeModiAction" method="init">
-		    <result name="success">/jsp/common/productTypeModi.jsp</result>
+		<action name="productTypeDelete" class="com.erp.common.action.ProductTypeAction" method="delete">
+		    <result name="success" type="tiles">productType.index</result>
 		</action>
+		
+		<action name="productTypeModiInit" class="com.erp.common.action.ProductTypeModiAction" method="init">
+		    <result name="success" type="tiles">productTypeModi.index</result>
+		</action>
+		
+		<action name="productTypeUpdate" class="com.erp.common.action.ProductTypeModiAction" method="update">
+		    <result name="success" type="tiles">productTypeModi.index</result>
+		</action>
+		
+		<action name="productTypeInsert" class="com.erp.common.action.ProductTypeModiAction" method="insert">
+		    <result name="success" type="tiles">productTypeModi.index</result>
+		</action>
+		
+		
 		
 	</package>
 </struts>

@@ -73,17 +73,13 @@
         <association property="productGroup" column="GROUP_ID" select="selectOneProductGroup"/>
     </resultMap>
     
+    <sql id="productTypeCol" >
+        GROUP_ID,TYPE_ID,NAME,UNIT,REF_IN_PRICE,REF_OUT_PRICE,DEC_NO,REMARK,NORM
+    </sql>
+    
     <select id="selectMulProductType" parameterType="map" resultMap="ProductTypeResult">
         SELECT
-            GROUP_ID,
-            TYPE_ID,
-            NAME,
-            UNIT,
-            REF_IN_PRICE,
-            REF_OUT_PRICE,
-            DEC_NO,
-            REMARK,
-            NORM
+            <include refid="productTypeCol" />
         FROM
             TB_PRODUCT_TYPE
         <where>
@@ -98,5 +94,39 @@
 	        </if>
         </where> 
     </select>
+    <select id="selectOneProductType" parameterType="map" resultMap="ProductTypeResult">
+        SELECT
+           <include refid="productTypeCol"/>
+        FROM
+            TB_PRODUCT_TYPE
+        WHERE GROUP_ID = #{groupId,jdbcType=CHAR}
+          AND TYPE_ID = #{typeId,jdbcType=CHAR}
+    </select>
+    
+    <update id="updateOneProductType" parameterType="ProductType">
+    UPDATE TB_PRODUCT_TYPE
+    SET NAME = #{name,jdbcType=CHAR},
+        UNIT = #{unit,jdbcType=CHAR},
+        REF_IN_PRICE = #{refInPrice,jdbcType=DECIMAL},
+        REF_OUT_PRICE = #{refOutPrice,jdbcType=DECIMAL},
+        DEC_NO = #{decNo,jdbcType=SMALLINT},
+        REMARK = #{remark,jdbcType=CHAR},
+        NORM = #{norm,jdbcType=CHAR}
+    WHERE GROUP_ID = #{groupId,jdbcType=CHAR}
+        AND TYPE_ID = #{typeId,jdbcType=CHAR}
+    </update>
+    
+    <insert id="insertOneProductType" parameterType="ProductType">
+    INSERT INTO TB_PRODUCT_TYPE (<include refid="productTypeCol"/>)
+    VALUES (#{groupId,jdbcType=CHAR}, #{typeId,jdbcType=CHAR}, #{name,jdbcType=CHAR}, 
+      #{unit,jdbcType=CHAR}, #{refInPrice,jdbcType=DECIMAL}, #{refOutPrice,jdbcType=DECIMAL}, 
+      #{decNo,jdbcType=SMALLINT}, #{remark,jdbcType=CHAR}, #{norm,jdbcType=CHAR})
+    </insert>
+    
+    <delete id="deleteOneProductType" parameterType="map">
+        DELETE FROM TB_PRODUCT_TYPE
+        WHERE GROUP_ID = #{groupId,jdbcType=CHAR}
+          AND TYPE_ID = #{typeId,jdbcType=CHAR}
+    </delete>
     
 </mapper>
