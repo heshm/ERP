@@ -38,8 +38,7 @@ function deleteOneProductType(commodityType){
     <tr>
       <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">货品大类：</td>
       <td width="23%">
-        <s:select name="groupId" list="%{#session.productGroup}" class="span2" listKey="groupId" listValue="groupName" theme="simple" headerKey="" headerValue="请选择类别">
-        </s:select>
+        <s:select name="groupId" list="%{#session.productGroup}" class="span2" listKey="groupId" listValue="groupName" theme="simple" headerKey="" headerValue="请选择类别" />
       </td>
       <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">货品名称：</td>
       <td width="23%">

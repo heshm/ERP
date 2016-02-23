@@ -27,12 +27,10 @@
         <put-attribute name="main" value="/jsp/stm/receiptBill.jsp"/>
     </definition>
     
-    
-    <definition name="main.index" template="/jsp/layout.jsp">
-        <put-attribute name="menu" value="/jsp/menu.jsp"/>
-        <put-attribute name="head" value="/jsp/head.jsp"/>
-        <put-attribute name="main" value="/jsp/index.jsp"/>
+    <definition name="receiptModi.index" extends="main.index">
+        <put-attribute name="main" value="/jsp/stm/receiptBillModi.jsp"/>
     </definition>
+    
     
     
 </tiles-definitions>

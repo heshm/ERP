@@ -15,9 +15,23 @@
     <bean id="receiptDAO" class="com.erp.stm.DAOImpl.ReceiptDAO">
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
+	
+	<bean id="receiptDetailDAO" class="com.erp.stm.DAOImpl.ReceiptDetailDAO">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+
 
 	<bean id="receiptService" class="com.erp.stm.serviceImpl.ReceiptService">
 		<property name="receiptDAO" ref="receiptDAO" />
+	</bean>
+	
+	<bean id="receiptDetailService" class="com.erp.stm.serviceImpl.ReceiptDetailService">
+		<property name="receiptDetailDAO" ref="receiptDetailDAO" />
+	</bean>
+	
+	<bean id="receiptBillService" class="com.erp.stm.serviceImpl.ReceiptBillService">
+	    <property name="receiptDAO" ref="receiptDAO" />
+		<property name="receiptDetailDAO" ref="receiptDetailDAO" />
 	</bean>
 
 </beans>

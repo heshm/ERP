@@ -21,12 +21,10 @@ public class ProductTypeModiAction extends CmAction{
 		//System.out.println(isUpdate);
 		if(Const.UPDATE_RECORD == isUpdate){
 			Map<String,String> map = new HashMap<String,String>();
-			//System.out.println(commodityType.substring(0,2));
-			//System.out.println(commodityType.substring(2));
+	
 			map.put("groupId", commodityType.substring(0,2));
 			map.put("typeId", commodityType.substring(2));
 			productType = productTypeService.getOneProductType(map);
-			//System.out.println(productType.getProductGroup().getGroupName());
 		}
 		return SUCCESS;
 	}

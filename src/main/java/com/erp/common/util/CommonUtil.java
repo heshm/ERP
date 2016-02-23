@@ -36,6 +36,11 @@ public class CommonUtil {
         return str.toString();
 
     }
+	
+	public static String dateFormat(Date date,String format){
+		SimpleDateFormat df = new SimpleDateFormat(format);
+		return df.format(date);
+	}
 
 
 	public static void main(String[] args) {

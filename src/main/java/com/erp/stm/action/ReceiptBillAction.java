@@ -1,12 +1,12 @@
 package com.erp.stm.action;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.erp.common.action.CmAction;
 import com.erp.common.model.Page;
 import com.erp.common.util.CommonUtil;
+import com.erp.common.util.Const;
 import com.erp.stm.IService.IReceiptService;
 import com.erp.stm.model.Receipt;
 
@@ -19,23 +19,36 @@ public class ReceiptBillAction extends CmAction{
 	private String endDate;
 	private String status;
 	
+	private Integer index;
+	
 	
 	private IReceiptService receiptService;
 	
 	public String init(){
 	    startDate = CommonUtil.getFirstDayOfTheMonth();
 	    endDate = CommonUtil.getCurrentDate();
-		
+	    index = Const.FIRST_PAGE_INDEX;
 		return SUCCESS;
 	}
 	
 	public String query(){
-		System.out.println("BBBBBB");
 		Map<String,Object> parmMap = new HashMap<String,Object>();
-		parmMap.put("depotId", "01");
+		parmMap.put("depotId", Const.DEFAULT_DEPOT_ID);
 		parmMap.put("startDate", startDate);
 		parmMap.put("endDate", endDate);
-		page = receiptService.getIndexPage(1, parmMap);
+		parmMap.put("receiptNo", receiptNo);
+		parmMap.put("type", docketType);
+		parmMap.put("status", status);
+		page = receiptService.getIndexPage(index, parmMap);
+		
+		return SUCCESS;
+	}
+	
+	public String delete(){
+		Map<String,Object> parmMap = new HashMap<String,Object>();
+		parmMap.put("depotId", Const.DEFAULT_DEPOT_ID);
+		parmMap.put("receiptNo", receiptNo);
+		receiptService.deleteOneReceipt(parmMap);
 		
 		return SUCCESS;
 	}
@@ -89,6 +102,15 @@ public class ReceiptBillAction extends CmAction{
 		this.status = status;
 	}
 	
+
+	public Integer getIndex() {
+		return index;
+	}
+
+	public void setIndex(Integer index) {
+		this.index = index;
+	}
+
 	public IReceiptService getReceiptService() {
 		return receiptService;
 	}

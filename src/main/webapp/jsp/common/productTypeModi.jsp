@@ -32,7 +32,7 @@ function productTypeModiFormSubmit(){
 <table class="table table-bordered">
   <tbody>
     <tr>
-      <td align="right">货品类别:</td>
+      <td align="right" bgcolor="#f1f1f1">货品类别:</td>
       <td align="left">
         <s:if test="%{isUpdate==1}">
           <span><s:property value="%{productType.productGroup.groupName}"/></span>
@@ -43,7 +43,7 @@ function productTypeModiFormSubmit(){
           </s:select>
         </s:else>
       </td>
-      <td align="right">货品编码:</td>
+      <td align="right" bgcolor="#f1f1f1">货品编码:</td>
       <td align="left" colspan="3">
       <s:if test="%{isUpdate==1}">
         <span><s:property value="%{productType.typeId}"/></span>
@@ -56,25 +56,25 @@ function productTypeModiFormSubmit(){
     </tr>
 
     <tr>
-      <td align="right">货品名称:</td>
+      <td align="right" bgcolor="#f1f1f1">货品名称:</td>
       <td align="left"><s:textfield name="productType.name" class="span2" maxlength="20"/>[*]</td>
-      <td align="right">货品规格:</td>
+      <td align="right" bgcolor="#f1f1f1">货品规格:</td>
       <td align="left" colspan="3"><s:textfield name="productType.norm" cssStyle="width:60px" maxlength="60"/>[*]</td>
     </tr>
     <tr>
-      <td align="right">单位:</td>
+      <td align="right" bgcolor="#f1f1f1">单位:</td>
       <td align="left"><s:textfield name="productType.unit" cssStyle="width:60px" maxlength="6"/>[*]</td>
-      <td align="right">计量小数位数:</td>
+      <td align="right" bgcolor="#f1f1f1">计量小数位数:</td>
       <td align="left" colspan="3"><s:textfield name="productType.decNo" cssStyle="width:50px" maxlength="5"/>[*]</td>
     </tr>
     <tr>
-      <td align="right">参考入库单价:</td>
+      <td align="right" bgcolor="#f1f1f1">参考入库单价:</td>
       <td align="left"><s:textfield name="productType.refInPrice" class="span2" maxlength="10"/></td>
-      <td align="right">参考出库单价:</td>
+      <td align="right" bgcolor="#f1f1f1">参考出库单价:</td>
       <td align="left" colspan="3"><s:textfield name="productType.refOutPrice" class="span2" maxlength="10"/></td>
     </tr>
     <tr>
-      <td align="right">备注:</td>
+      <td align="right" bgcolor="#f1f1f1">备注:</td>
       <td align="left" colspan="3"><s:textfield name="productType.remark" class="span3" maxlength="30"/></td>
     </tr>
   </tbody>

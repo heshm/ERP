@@ -53,7 +53,14 @@
         <include refid="ReceiptWhere" />
     </select>
     
-    <select id="selectReceiptPageData" parameterType="map" resultMap="ReceiptResultMap">
+    <select id="selectOneReceipt" parameterType="map" resultMap="ReceiptResultMap">
+        SELECT 
+          <include refid="ReceiptColumn" />
+        FROM TB_RECEIPT
+        <include refid="ReceiptWhere" />
+    </select>
+    
+    <select id="selectReceiptPageData" resultMap="ReceiptResultMap">
         <include refid="page.pageSelectList" />
         SELECT 
           <include refid="ReceiptColumn" />
@@ -62,9 +69,88 @@
         <include refid="page.pageWhereList" />
     </select>
     
-    <select id="selectReceiptPageCnt" parameterType="map" resultType="java.lang.Integer">
+    <select id="selectReceiptPageCnt" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM TB_RECEIPT
         <include refid="ReceiptWhere" />
+    </select>
+    
+    <update id="updateOneReceipt" parameterType="map" >
+        UPDATE TB_RECEIPT
+        <set >
+            <if test="type != null" >
+                type = #{type,jdbcType=CHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="registrant != null" >
+                registrant = #{registrant,jdbcType=CHAR},
+            </if>
+            <if test="auditor != null" >
+                auditor = #{auditor,jdbcType=CHAR},
+            </if>
+            <if test="supplier != null" >
+                supplier = #{supplier,jdbcType=VARCHAR},
+            </if>
+            <if test="writeDate != null" >
+                write_date = #{writeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="confirmDate != null" >
+                confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE DEPOT_ID = #{depotId,jdbcType=CHAR}
+        AND RECEIPT_NO = #{receiptNo,jdbcType=CHAR}
+    </update>
+    
+    <delete id="deleteOneReceipt" parameterType="map" >
+        DELETE FROM TB_RECEIPT
+        WHERE DEPOT_ID = #{depotId,jdbcType=CHAR}
+         AND RECEIPT_NO = #{receiptNo,jdbcType=CHAR}
+    </delete>
+    
+    <resultMap id="ReceiptDetailResultMap" type="ReceiptDetail">
+        <id column="DEPOT_ID" jdbcType="CHAR" property="depotId" />
+        <id column="RECEIPT_NO" jdbcType="CHAR" property="receiptNo" />
+        <id column="COMMODITY_TYPE" jdbcType="CHAR" property="commodityType" />
+        <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+        <result column="QUANTITY" jdbcType="REAL" property="quantity" />
+        <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+        <result column="TAX_RAIT" jdbcType="DECIMAL" property="taxRait" />
+        <result column="TAX_AMT" jdbcType="DECIMAL" property="taxAmt" />
+        <result column="NORM" jdbcType="CHAR" property="norm" />
+        <result column="GROUP_ID" property="groupId" jdbcType="CHAR" />
+        <result column="TYPE_ID" property="typeId" jdbcType="CHAR" />
+        <association property="productType" column="groupId=GROUP_ID,typeId=TYPE_ID}"  select="common.selectOneProductType"/>
+    </resultMap>
+    
+    <sql id="ReceiptDetailColumn">
+        DEPOT_ID, RECEIPT_NO, COMMODITY_TYPE, UNIT_PRICE, QUANTITY, 
+        AMOUNT, TAX_RAIT, TAX_AMT, NORM ,GROUP_ID ,TYPE_ID
+    </sql>
+    
+    <sql id="ReceiptDetailWhere">
+        <where>
+            <if test="depotId != null and depotId != ''">
+	            DEPOT_ID = #{depotId,jdbcType=CHAR}
+	        </if>
+	        <if test="receiptNo != null and receiptNo != ''">
+	            AND RECEIPT_NO = #{receiptNo,jdbcType=CHAR}
+	        </if>
+	        <if test="commodityType != null and commodityType != ''">
+	            AND COMMODITY_TYPE = #{commodityType,jdbcType=CHAR}
+	        </if>
+        </where> 
+    </sql>
+    
+    <select id="selectMulReceiptDetail" parameterType="map" resultMap="ReceiptDetailResultMap">
+        SELECT 
+          <include refid="ReceiptDetailColumn" />
+        FROM TB_RECEIPT_DETAIL
+        <include refid="ReceiptDetailWhere" />
     </select>
     
 </mapper>

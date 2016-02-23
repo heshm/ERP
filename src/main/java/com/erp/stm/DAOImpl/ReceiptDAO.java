@@ -27,12 +27,27 @@ public class ReceiptDAO implements IReceiptDAO {
 
 	@Override
 	public int selectTotleCount(@SuppressWarnings("rawtypes") Map paramMap) {
-		return sqlSession.selectOne(SELECT_RECEIPT_PAGE_CNT);
+		return sqlSession.selectOne(SELECT_RECEIPT_PAGE_CNT,paramMap);
 	}
 
 	@Override
 	public List<Receipt> selectMulReceipt(@SuppressWarnings("rawtypes") Map parmMap) {
 		return sqlSession.selectList(SELECT_MUL_RECEIPT, parmMap);
+	}
+
+	@Override
+	public Receipt selectOneReceipt(@SuppressWarnings("rawtypes")Map parmMap) {
+		return sqlSession.selectOne(SELECT_ONE_RECEIPT, parmMap);
+	}
+
+	@Override
+	public int deleteOneReceipt(@SuppressWarnings("rawtypes")Map parmMap) {
+		return sqlSession.delete(DELETE_ONE_RECEIPT, parmMap);
+	}
+
+	@Override
+	public int updateOneReceipt(@SuppressWarnings("rawtypes")Map parmMap) {
+		return sqlSession.update(UPDATE_ONE_RECEIPT, parmMap);
 	}
 
 	
