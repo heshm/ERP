@@ -26,6 +26,10 @@
 			</result>
 		</action>
 		
+		<action name="receiptBillCheck" class="com.erp.stm.action.ReceiptBillAction" method="check">
+			<result name="success" type="tiles">receipt.index</result>
+		</action>
+		
 		<action name="receiptBillModiInit" class="com.erp.stm.action.ReceiptBillModiAction" method="init">
 			<result name="success" type="tiles">receiptModi.index</result>
 		</action>

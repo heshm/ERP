@@ -32,6 +32,7 @@
 		<property name="initialPoolSize" value="${jdbc.initialPoolSize}" />
 		<!-- 指定连接数据库连接池的连接的最大空闲时间 -->
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+		
 	</bean>
 	
 	<!-- 事务配置 -->
@@ -46,7 +47,7 @@
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
-		<constructor-arg index="1" value="BATCH" />
+		<!-- <constructor-arg index="1" value="BATCH" />  -->
 	</bean>
 	
 	<!-- 使用annotation注解方式配置事务 -->

@@ -45,6 +45,7 @@ public class ProductTypeAction extends CmAction{
 		selMap.put("groupId", groupId);
 		selMap.put("name", productName);
 		productTypeList = productTypeService.getMulProductType(selMap);
+		
 		return SUCCESS;
 	}
 

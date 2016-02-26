@@ -3,12 +3,20 @@ package com.erp.stm.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.erp.common.action.CmAction;
 import com.erp.common.model.Page;
+import com.erp.common.model.User;
 import com.erp.common.util.CommonUtil;
 import com.erp.common.util.Const;
+import com.erp.stm.IService.IReceiptBillService;
 import com.erp.stm.IService.IReceiptService;
 import com.erp.stm.model.Receipt;
+
 
 public class ReceiptBillAction extends CmAction{
 	
@@ -23,6 +31,7 @@ public class ReceiptBillAction extends CmAction{
 	
 	
 	private IReceiptService receiptService;
+	private IReceiptBillService receiptBillService;
 	
 	public String init(){
 	    startDate = CommonUtil.getFirstDayOfTheMonth();
@@ -40,7 +49,8 @@ public class ReceiptBillAction extends CmAction{
 		parmMap.put("type", docketType);
 		parmMap.put("status", status);
 		page = receiptService.getIndexPage(index, parmMap);
-		
+	
+	    page = receiptService.getIndexPage(index, parmMap);
 		return SUCCESS;
 	}
 	
@@ -49,6 +59,29 @@ public class ReceiptBillAction extends CmAction{
 		parmMap.put("depotId", Const.DEFAULT_DEPOT_ID);
 		parmMap.put("receiptNo", receiptNo);
 		receiptService.deleteOneReceipt(parmMap);
+		return SUCCESS;
+	}
+
+	public String check(){
+		try{
+			Subject subject = SecurityUtils.getSubject();
+		    Session session = subject.getSession();
+		    User user = (User)session.getAttribute("user");
+		    receiptBillService.checkReceiptBillForm(Const.DEFAULT_DEPOT_ID, receiptNo ,user);
+		    this.addActionMessage("单据号为(" + receiptNo + ")的单据审核成功!");
+		}catch(RuntimeException e){
+			this.addActionError(e.getMessage());
+		}
+		startDate = CommonUtil.getFirstDayOfTheMonth();
+	    endDate = CommonUtil.getCurrentDate();
+		Map<String,Object> parmMap = new HashMap<String,Object>();
+		parmMap.put("depotId", Const.DEFAULT_DEPOT_ID);
+		//parmMap.put("startDate", startDate);
+		//parmMap.put("endDate", endDate);
+		parmMap.put("receiptNo", receiptNo);
+		parmMap.put("type", docketType);
+		page = receiptService.getIndexPage(1, parmMap);
+		//receiptNo = Const.DEFAULT_EMPTY_STRING;
 		
 		return SUCCESS;
 	}
@@ -117,6 +150,14 @@ public class ReceiptBillAction extends CmAction{
 
 	public void setReceiptService(IReceiptService receiptService) {
 		this.receiptService = receiptService;
+	}
+
+	public IReceiptBillService getReceiptBillService() {
+		return receiptBillService;
+	}
+
+	public void setReceiptBillService(IReceiptBillService receiptBillService) {
+		this.receiptBillService = receiptBillService;
 	}
 
 }

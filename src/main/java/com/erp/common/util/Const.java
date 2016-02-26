@@ -29,5 +29,9 @@ public class Const {
 	public static final int DEFAULT_BILL_PAGE_SIZE = 10;
 	public static final int FIRST_PAGE_INDEX = 1;
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	
+	public static final String DEFAULT_EMPTY_STRING = "";
+	
+	public static final int DEFAULT_DEC_NO = 2;
 
 }

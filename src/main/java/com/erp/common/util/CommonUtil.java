@@ -27,6 +27,14 @@ public class CommonUtil {
 
 	}
 	
+	public static String getCurrentDate(String fmt){
+		SimpleDateFormat format = new SimpleDateFormat(fmt);
+		Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        return format.format(date);
+
+	}
+	
 	public static String getLastDay() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();

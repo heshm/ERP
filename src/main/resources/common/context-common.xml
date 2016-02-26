@@ -19,7 +19,7 @@
 	<bean id="userService" class="com.erp.common.serviceImpl.UserService">
 		<property name="userDAO" ref="userDAO" />
 	</bean>
-	
+
 	<bean id="productGroupDAO" class="com.erp.common.DAOImpl.ProductGroupDAO">
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
@@ -27,7 +27,7 @@
 	<bean id="productGroupService" class="com.erp.common.serviceImpl.ProductGroupService">
 		<property name="productGroupDAO" ref="productGroupDAO" />
 	</bean>
- 
+
 	<bean id="productTypeDAO" class="com.erp.common.DAOImpl.ProductTypeDAO">
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>

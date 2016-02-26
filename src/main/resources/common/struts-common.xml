@@ -3,8 +3,7 @@
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="common" namespace="/common" extends="tiles-default">
-
+	<package name="common" namespace="/common" extends="tiles-default,json-default">
 
 		<action name="indexInit" class="com.erp.common.action.IndexAction" method="init">
 			<result name="success" type="tiles">main.index</result>
@@ -57,7 +56,16 @@
 		    <result name="success" type="tiles">productTypeModi.index</result>
 		</action>
 		
-		
+		<action name="ajaxGetProductTypeList" class="com.erp.common.action.StaticModal" method="ajaxGetProductTypeList">
+		    <result type="json">
+		        <param name="root">productTypeList</param>
+		    </result>
+		</action>
+		<action name="ajaxGetProductType" class="com.erp.common.action.StaticModal" method="ajaxGetProductType">
+		    <result type="json">
+		        <param name="root">productType</param>
+		    </result>
+		</action>
 		
 	</package>
 </struts>

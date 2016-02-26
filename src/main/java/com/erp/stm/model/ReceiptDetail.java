@@ -16,9 +16,10 @@ public class ReceiptDetail implements Serializable {
 	private BigDecimal unitPrice;
 	private Float quantity;
 	private BigDecimal amount;
-	private BigDecimal taxRait;
+	private BigDecimal taxRate;
 	private BigDecimal taxAmt;
 	private String norm;
+	private String brand;
 	private String groupId;
 	private String typeId;
 	private ProductType productType;
@@ -71,12 +72,12 @@ public class ReceiptDetail implements Serializable {
 		this.amount = amount;
 	}
 
-	public BigDecimal getTaxRait() {
-		return taxRait;
+	public BigDecimal getTaxRate() {
+		return taxRate;
 	}
 
-	public void setTaxRait(BigDecimal taxRait) {
-		this.taxRait = taxRait;
+	public void setTaxRate(BigDecimal taxRate) {
+		this.taxRate = taxRate;
 	}
 
 	public BigDecimal getTaxAmt() {
@@ -93,6 +94,14 @@ public class ReceiptDetail implements Serializable {
 
 	public void setNorm(String norm) {
 		this.norm = norm;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 	public String getGroupId() {

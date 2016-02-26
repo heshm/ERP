@@ -1,8 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+
+<head>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#alertModal").on("hidden", function() {
+	    $(this).removeData("modal");
+	});
+});
+</script>
+</head>
+
 <div class="header">
 	<div class="logo">
 		<img src="<%=request.getContextPath()%>/img/logo.png" />
@@ -26,6 +35,32 @@
 				<a class="btn btn-primary" style="line-height: 20px;" href="<%=request.getContextPath()%>/logout">确定退出</a>
 			</div>
 		</div>
+		
+		
+		<div id="alertModal" class="modal hide fade" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true"
+			style="width: 300px; margin-left: -150px; top: 30%">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">系统提示</h3>
+			</div>
+			<div class="modal-body">
+		 
+				<p>
+				  <img align="left" alt="" src="../img/info.png">
+				  <s:actionmessage style="list-style: none; font-size:13px"/>
+				  <s:actionerror style="list-style: none; font-size:13px ; color:red"/>
+				</p>
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true">确定</button>
+			</div>
+		</div>
 	</div>
 </div>
-</html>
+<s:if test="hasActionMessages()||hasActionErrors()||hasFieldErrors()"> 
+  <script language="JavaScript"> 
+      $("#alertModal").modal();
+  </script>
+</s:if>

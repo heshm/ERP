@@ -22,16 +22,25 @@ function deleteOneReceipt(billNo){
 		location.href = htmlAddress;
 	}
 }
+function checkOneReceipt(billNo){
+	var htmlAddress = "receiptBillCheck.action?receiptNo=" + billNo;
+	var msg = "确定审核单号为:" + billNo + "的记录?";
+	if(confirm(msg)){
+		location.href = htmlAddress;
+	}
+}
 
 </script>
 </head>
 <div class="title_right">
-  <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建采购入库单</a></span>
-  <strong>
-    <s:if test="%{docketType==1}">
-              采购入库单查询
-    </s:if>
-  </strong>
+  <s:if test="%{docketType==1}">
+    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建采购入库单</a></span>
+    <strong>采购入库单查询</strong>
+  </s:if>
+  <s:if test="%{docketType==2}">
+    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=2" role="button"><i class="icon-plus icon-white"></i>新建生产入库单</a></span>
+    <strong>生产入库单查询</strong>
+  </s:if>
 </div>  
 <div style="width:900px; margin:auto;">
   <table class="table table-bordered">
@@ -40,7 +49,7 @@ function deleteOneReceipt(billNo){
     <tr>
       <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">单据号码：</td>
       <td width="23%"><s:textfield name="receiptNo"  class="span2" theme="simple"/></td>
-      <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">开单开始时间：</td>
+      <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">开单时间：</td>
       <td width="43%">
         <s:textfield name="startDate" class="laydate-icon span1-1" id="Calendar1" theme="simple"/>
         <span>~</span>
@@ -95,7 +104,7 @@ function deleteOneReceipt(billNo){
           <s:if test="%{#pageData.status==0}">
             <a href="javascript:deleteOneReceipt('<s:property value="#pageData.receiptNo"/>');">删除</a> 
             <a href="javascript:getBillDetail('<s:property value="#pageData.receiptNo"/>')">详情</a>
-            <a href="javascript:updateOneProductType('<s:property value="#productType.groupId"/><s:property value="#productType.typeId"/>');">审核</a>
+            <a href="javascript:checkOneReceipt('<s:property value="#pageData.receiptNo"/><s:property value="#productType.typeId"/>');">审核</a>
             <span style="color: #999999;cursor: default;background-color: transparent;">反审</span>
           </s:if>
           <s:else>
@@ -132,18 +141,17 @@ function deleteOneReceipt(billNo){
     </s:else>
     
     <s:bean name="org.apache.struts2.util.Counter">
-      <s:param name="first" value="#currentPage"/>
+      <s:param name="first" value="1"/>
      
-      <s:param name="last" value="#lastIndex"/>
-      <s:iterator>
-       
+      <s:param name="last" value="5"/>
+      <s:iterator status="stat">
+        
         <s:if test="#index<=#pageCnt">
-          <li><a href="javascript:getPageData(<s:property/>)"><s:property/></a></li>
+          <li><a href="javascript:getPageData(<s:property value="#stat.index+#currentPage"/>)"><s:property value="#stat.index+#currentPage"/></a></li>
         </s:if>
         <s:else>
-          <li class="disabled"><span><s:property/></span></li>
+          <li class="disabled"><span><s:property value="#stat.index+#currentPage"/></span></li>
         </s:else>  
-        <s:property value="#current"/>
         <s:set var="index" value="#index + 1" />
       </s:iterator>
     </s:bean>

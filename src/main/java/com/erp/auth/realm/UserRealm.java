@@ -36,18 +36,19 @@ public class UserRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-		//Subject subject = SecurityUtils.getSubject();
-		//Session session = subject.getSession();
+		Subject subject = SecurityUtils.getSubject();
+	    Session session = subject.getSession();
 		//System.out.println("This is a agf");
-		System.out.println("Login Method");
+		//System.out.println("Login Method");
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		String password = String.valueOf(token.getPassword());
-		System.out.println(token.getUsername());
+		//System.out.println(token.getUsername());
 		User user = userService.getOneUser(token.getUsername());
-		System.out.println(user.getPassword());
+		//System.out.println(user.getPassword());
 		if(user == null){
-			throw new UnknownAccountException();
+			throw new UnknownAccountException("");
 		}else{
+			session.setAttribute("user", user);
 			if(user.getPassword().equals(password)){
 				return new SimpleAuthenticationInfo(
 						user.getUserId(),

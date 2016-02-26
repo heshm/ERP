@@ -22,10 +22,6 @@ function productTypeModiFormSubmit(){
 <div class="title_right">
   <strong>货品资料维护</strong>
 </div> 
-<div style="margin:center">
-  <s:actionmessage class="actionmessage"/>
-  <s:actionerror class="actionerror"/>
-</div>
 <div style="width:600px; margin:auto">
 <s:form name="productTypeModiForm" method="post" action="productTypeModi" namespace="/common" theme="simple">
 <s:hidden id="isUpdate" name="isUpdate"/>
@@ -84,7 +80,7 @@ function productTypeModiFormSubmit(){
   <tr>
     <td class="text-center">
       <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" style="width:80px" onclick="productTypeModiFormSubmit();">保存</button> 
-      <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" style="width:80px" onclick="history.back();">取消</button> 
+      <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" style="width:80px" onclick="history.back()">取消</button> 
     </td>
   </tr>
 </table>
