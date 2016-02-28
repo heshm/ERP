@@ -93,44 +93,41 @@ public class ReceiptBillService implements IReceiptBillService {
 					//System.out.println("AAAAA");
 					inventory.setDepotId(detail.getDepotId());
 					inventory.setCommodityType(detail.getCommodityType());
-					inventory.setQuantity(detail.getQuantity());
-					inventory.setAveragePrice(detail.getUnitPrice());
-					inventory.setAmount(detail.getAmount());
-					inventory.setTaxAmt(detail.getTaxAmt());
-					inventory.setAverageTaxRate(detail.getTaxRate());
-
+					inventory.setInQuantity(detail.getQuantity());
+					inventory.setInAveragePrice(detail.getUnitPrice());
+					inventory.setInAmount(detail.getAmount());
+					inventory.setInTaxAmt(detail.getTaxAmt());
+					inventory.setInAverageTaxRate(detail.getTaxRate());
+					
+					inventory.setOutQuantity(0f);
+					inventory.setOutAveragePrice(new BigDecimal("0.00"));
+					inventory.setOutAverageTaxRate(new BigDecimal("0.00"));
+					inventory.setOutTaxAmt(new BigDecimal("0.00"));
+					inventory.setOutAmount(new BigDecimal("0.00"));
+					
 				}else{
-					inventory.setQuantity(inventory.getQuantity() + detail.getQuantity());
-					BigDecimal quantity = new BigDecimal(inventory.getQuantity().toString());
+					inventory.setInQuantity(inventory.getInQuantity() + detail.getQuantity());
+					BigDecimal quantity = new BigDecimal(inventory.getInQuantity().toString());
 		
-					inventory.setAmount(
-							inventory.getAmount().
+					inventory.setInAmount(
+							inventory.getInAmount().
 							add(detail.getAmount()));
 			
-					inventory.setTaxAmt(
-							inventory.getTaxAmt().
+					inventory.setInTaxAmt(
+							inventory.getInTaxAmt().
 							add(detail.getTaxAmt()));
-					//System.out.println("SSSSSSSSSSS");
-					//System.out.println(inventory.getAmount());
-					//System.out.println(quantity);
 			
-					inventory.setAveragePrice(
-							inventory.getAmount().
+					inventory.setInAveragePrice(
+							inventory.getInAmount().
 							divide(quantity,Const.DEFAULT_DEC_NO,BigDecimal.ROUND_HALF_UP));
-					//System.out.println("EEEE");
-					//System.out.println(inventory.getTaxAmt());
-					//System.out.println(inventory.getAmount());
 					
-					inventory.setAverageTaxRate(
-							inventory.getTaxAmt().
+					inventory.setInAverageTaxRate(
+							inventory.getInTaxAmt().
 							multiply(new BigDecimal("100")).
-							divide(inventory.getAmount(),3,BigDecimal.ROUND_HALF_UP));
-					//System.out.println("FFFF");
+							divide(inventory.getInAmount(),3,BigDecimal.ROUND_HALF_UP));
+					
+					
 				}
-				//System.out.println(inventory.getAverageTaxRate());
-				//System.out.println("IIII");
-				//System.out.println(inventory.getTaxAmt().
-						//divide(inventory.getAmount()));
 				inventoryDAO.insertUpdateOneInventory(inventory);	
 				//System.out.println("JJJJ");
 			}

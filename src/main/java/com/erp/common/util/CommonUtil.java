@@ -73,6 +73,15 @@ public class CommonUtil {
 		return rKseqNo;
 	}
 	
+	public static String getNextCKSeqNo(String CKseqNo){
+		String current = CKseqNo.substring(10,14);
+		String next = getNextSeqNo(current,4);
+		CKseqNo = CKseqNo.substring(0,10);
+		CKseqNo = CKseqNo + next;
+		//System.out.println(current);
+		return CKseqNo;
+	}
+	
 	public static String dataFormat(String str){
 		if(str.length() <= 10){
 			return str;
@@ -84,7 +93,7 @@ public class CommonUtil {
 
 	public static void main(String[] args) {
 		
-		System.out.println(dataFormat("2012-12-10    "));
+		System.out.println(getNextCKSeqNo("CK201501010001"));
 	}
 
 }

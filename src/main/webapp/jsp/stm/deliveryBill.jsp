@@ -12,18 +12,23 @@ function getPageData(index){
 	document.queryForm.submit();
 }
 function getBillDetail(billNo){
-	var htmlAddress = "deliveryBillModi.action?update=1&" + "deliveryNo=" + billNo;
+	var htmlAddress = "deliveryBillModiInit.action?update=1&" + "deliveryNo=" + billNo;
 	location.href = htmlAddress;
+}
+function checkOneDelivery(deliveryNo){
+	//alert(deliveryNo);
+	var htmlAddress = "deliveryBillCheck.action?deliveryNo=" + deliveryNo;
+	location.href=htmlAddress;
 }
 </script>
 </head>
 <div class="title_right">
   <s:if test="%{#session.docketType==3}">
-    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建采购退货单</a></span>
+    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="deliveryBillModiInit.action?update=0" role="button"><i class="icon-plus icon-white"></i>新建采购退货单</a></span>
     <strong>采购退货单查询</strong>
   </s:if>
   <s:if test="%{#session.docketType==4}">
-    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建领用退库单</a></span>
+    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="deliveryBillModiInit.action?update=0" role="button"><i class="icon-plus icon-white"></i>新建领用退库单</a></span>
     <strong>领用退库单查询</strong>
   </s:if>
 </div>  
@@ -86,7 +91,7 @@ function getBillDetail(billNo){
           <s:if test="%{#pageData.status==0}">
             <a href="javascript:deleteOneReceipt('<s:property value="#pageData.deliveryNo"/>');">删除</a> 
             <a href="javascript:getBillDetail('<s:property value="#pageData.deliveryNo"/>')">详情</a>
-            <a href="javascript:checkOneReceipt('<s:property value="#pageData.deliveryNo"/><s:property value="#productType.typeId"/>');">审核</a>
+            <a href="javascript:checkOneDelivery('<s:property value="#pageData.deliveryNo"/><s:property value="#productType.typeId"/>');">审核</a>
             <span style="color: #999999;cursor: default;background-color: transparent;">反审</span>
           </s:if>
           <s:else>

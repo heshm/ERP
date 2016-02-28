@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import org.apache.ibatis.type.Alias;
 
+import com.erp.common.model.ProductType;
+
 @Alias("DeliveryDetail")
 public class DeliveryDetail implements Serializable{
 	
@@ -31,6 +33,8 @@ public class DeliveryDetail implements Serializable{
     private String groupId;
     
     private String typeId;
+    
+    private ProductType productType;
 
     public String getDepotId() {
         return depotId;
@@ -126,6 +130,14 @@ public class DeliveryDetail implements Serializable{
 
 	public void setTypeId(String typeId) {
 		this.typeId = typeId;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
 	}
 
 }

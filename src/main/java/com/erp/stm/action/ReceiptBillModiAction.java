@@ -46,7 +46,7 @@ public class ReceiptBillModiAction extends CmAction{
 		//System.out.println(receiptBillForm.toString());
 		receiptBillForm.getReceipt().setType(docketType);
 		try{
-			System.out.println("sssssss" + receiptBillForm.getReceipt().getWriteDate());
+			//System.out.println("sssssss" + receiptBillForm.getReceipt().getWriteDate());
 		    Subject subject = SecurityUtils.getSubject();
 	        Session session = subject.getSession();
 	        User user = (User)session.getAttribute("user");
@@ -58,7 +58,6 @@ public class ReceiptBillModiAction extends CmAction{
 			map.put("receiptNo", receiptBillForm.getReceipt().getReceiptNo());
 			receiptBillForm = receiptBillService.getOneReceiptBillForm(map);
 		}catch(RuntimeException e){
-			System.out.println(e.getMessage());
 			this.addActionError(e.getMessage());
 		}
 		//System.out.println("AAAAAAAAAAAAAA");

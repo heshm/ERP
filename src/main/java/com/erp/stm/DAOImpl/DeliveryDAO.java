@@ -43,4 +43,22 @@ public class DeliveryDAO implements IDeliveryDAO {
 		return sqlSession.selectOne(SELECT_ONE_DELIVERY, map);
 	}
 
+	@Override
+	public String selectDeliverySeq(String depotId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(SELECT_DELIVERY_SEQ,depotId);
+	}
+
+	@Override
+	public int updateOneDelivery(Delivery delivery) {
+		// TODO Auto-generated method stub
+		return sqlSession.update(UPDATE_ONE_DELIVERY, delivery);
+	}
+
+	@Override
+	public int insertOneDelivery(Delivery delivery) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(INSERT_ONE_DELIVERY, delivery);
+	}
+
 }

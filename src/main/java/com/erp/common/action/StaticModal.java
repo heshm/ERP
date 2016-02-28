@@ -6,6 +6,10 @@ import java.util.Map;
 
 import com.erp.common.IService.IProductTypeService;
 import com.erp.common.model.ProductType;
+import com.erp.common.model.form.AjaxProductType;
+import com.erp.common.util.Const;
+import com.erp.stm.IService.IInventoryService;
+import com.erp.stm.model.Inventory;
 
 public class StaticModal extends CmAction{
 	
@@ -19,6 +23,10 @@ public class StaticModal extends CmAction{
 	
 	private ProductType productType;
 	
+	private Inventory inventory;
+	
+	private IInventoryService inventoryService;
+	
 	public String ajaxGetProductTypeList(){
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("groupId", groupId);
@@ -31,6 +39,16 @@ public class StaticModal extends CmAction{
 		map.put("groupId", groupId);
 		map.put("typeId", typeId);
 		productType = productTypeService.getOneProductType(map);
+
+		return SUCCESS;
+	}
+	
+	public String ajaxGetInventory(){
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("depotId", Const.DEFAULT_DEPOT_ID);
+		String commodityType = groupId + typeId;
+		map.put("commodityType",commodityType);
+		inventory = inventoryService.getOneInventory(map);
 		return SUCCESS;
 	}
 
@@ -72,6 +90,22 @@ public class StaticModal extends CmAction{
 
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
+
+	public IInventoryService getInventoryService() {
+		return inventoryService;
+	}
+
+	public void setInventoryService(IInventoryService inventoryService) {
+		this.inventoryService = inventoryService;
 	}
 	
 	

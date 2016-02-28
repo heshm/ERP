@@ -26,4 +26,16 @@ public class DeliveryDetailDAO implements IDeliveryDetailDAO {
 		return sqlSession.selectList(SELECT_MUL_DELIVERY_DETAIL, map);
 	}
 
+	@Override
+	public int deleteDeliveryDetail(Map map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete(DELETE_DELIVERY_DETAIL, map);
+	}
+
+	@Override
+	public int insertDeliveryDetail(Map<String, List<DeliveryDetail>> detailMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(INSERT_DELIVERY_DETAIL, detailMap);
+	}
+
 }

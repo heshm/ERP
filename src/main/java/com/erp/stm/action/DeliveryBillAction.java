@@ -10,8 +10,10 @@ import org.apache.shiro.subject.Subject;
 
 import com.erp.common.action.CmAction;
 import com.erp.common.model.Page;
+import com.erp.common.model.User;
 import com.erp.common.util.CommonUtil;
 import com.erp.common.util.Const;
+import com.erp.stm.IService.IDeliveryBillService;
 import com.erp.stm.IService.IDeliveryService;
 import com.erp.stm.model.Delivery;
 
@@ -26,6 +28,7 @@ public class DeliveryBillAction extends CmAction{
 	private String deliveryNo;
 	
 	private IDeliveryService deliveryService; 
+	private IDeliveryBillService deliveryBillService;
 	
 	public String init(){
 		Subject subject = SecurityUtils.getSubject();
@@ -49,16 +52,21 @@ public class DeliveryBillAction extends CmAction{
 		parmMap.put("status", status);
 		parmMap.put("deliveryNo", deliveryNo);
 		page = deliveryService.getIndexPage(index, parmMap);
-		
-		List<Delivery> list = page.getPageData();
-		for(Delivery temp : list){
-			System.out.println(temp.getDeliveryNo());
-		}
-		
 		return SUCCESS;
 	}
 	
 	public String check(){
+		try{
+			Subject subject = SecurityUtils.getSubject();
+		    Session session = subject.getSession();
+		    User user = (User)session.getAttribute("user");
+		    deliveryBillService.checkDelioveryBill(Const.DEFAULT_DEPOT_ID, deliveryNo, user);
+		    this.addActionMessage("单据号为(" + deliveryNo + ")的单据审核成功!");
+		}catch(RuntimeException e){
+			this.addActionError(e.getMessage());
+		}
+		//startDate = CommonUtil.getFirstDayOfTheMonth();
+	   // endDate = CommonUtil.getCurrentDate();
 		
 		return SUCCESS;
 	}
@@ -125,6 +133,14 @@ public class DeliveryBillAction extends CmAction{
 
 	public void setDeliveryNo(String deliveryNo) {
 		this.deliveryNo = deliveryNo;
+	}
+
+	public IDeliveryBillService getDeliveryBillService() {
+		return deliveryBillService;
+	}
+
+	public void setDeliveryBillService(IDeliveryBillService deliveryBillService) {
+		this.deliveryBillService = deliveryBillService;
 	}
 
 }

@@ -32,6 +32,9 @@
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
 
+    <bean id="inventoryService" class="com.erp.stm.serviceImpl.InventoryService">
+		<property name="inventoryDAO" ref="inventoryDAO" />
+	</bean>
 
 	<bean id="receiptService" class="com.erp.stm.serviceImpl.ReceiptService">
 		<property name="receiptDAO" ref="receiptDAO" />

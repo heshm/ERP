@@ -14,6 +14,19 @@ public class DeliveryBillForm {
 	private BigDecimal sumAmount;
 	private BigDecimal sumTaxAmt;
 	
+	public DeliveryBillForm(){
+		super();
+	}
+	
+	public DeliveryBillForm(Delivery delivery){
+		this.delivery = delivery;
+	}
+	
+	public DeliveryBillForm(Delivery delivery,List<DeliveryDetail> deliveryDetailList){
+		this.delivery = delivery;
+		this.deliveryDetailList = deliveryDetailList;
+	}
+	
 	public Delivery getDelivery() {
 		return delivery;
 	}

@@ -215,15 +215,21 @@
     <resultMap id="InventoryResultMap" type="Inventory" >
         <id column="DEPOT_ID" property="depotId" jdbcType="CHAR" />
         <id column="COMMODITY_TYPE" property="commodityType" jdbcType="CHAR" />
-        <result column="AVERAGE_PRICE" property="averagePrice" jdbcType="DECIMAL" />
-        <result column="QUANTITY" property="quantity" jdbcType="REAL" />
-        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
-        <result column="TAX_AMT" property="taxAmt" jdbcType="DECIMAL" />
-        <result column="AVERAGE_TAX_RATE" property="averageTaxRate" jdbcType="DECIMAL" />
+        <result column="IN_AVERAGE_PRICE" property="inAveragePrice" jdbcType="DECIMAL" />
+        <result column="IN_QUANTITY" property="inQuantity" jdbcType="REAL" />
+        <result column="IN_AMOUNT" property="inAmount" jdbcType="DECIMAL" />
+        <result column="IN_TAX_AMT" property="inTaxAmt" jdbcType="DECIMAL" />
+        <result column="IN_AVERAGE_TAX_RATE" property="inAverageTaxRate" jdbcType="DECIMAL" />
+        <result column="OUT_AVERAGE_PRICE" property="outAveragePrice" jdbcType="DECIMAL" />
+        <result column="OUT_QUANTITY" property="outQuantity" jdbcType="REAL" />
+        <result column="OUT_AMOUNT" property="outAmount" jdbcType="DECIMAL" />
+        <result column="OUT_TAX_AMT" property="outTaxAmt" jdbcType="DECIMAL" />
+        <result column="OUT_AVERAGE_TAX_RATE" property="outAverageTaxRate" jdbcType="DECIMAL" />
     </resultMap>
     
     <sql id="InventoryColumn" >
-        DEPOT_ID, COMMODITY_TYPE, AVERAGE_PRICE, QUANTITY, AMOUNT, TAX_AMT, AVERAGE_TAX_RATE
+        DEPOT_ID, COMMODITY_TYPE, IN_AVERAGE_PRICE, IN_QUANTITY, IN_AMOUNT, IN_TAX_AMT, 
+        IN_AVERAGE_TAX_RATE, OUT_AVERAGE_PRICE, OUT_QUANTITY, OUT_AMOUNT, OUT_TAX_AMT, OUT_AVERAGE_TAX_RATE
     </sql>
     
     <select id="selectOneInventory" parameterType="map" resultMap="InventoryResultMap">
@@ -239,17 +245,27 @@
         VALUES(
         #{depotId,jdbcType=CHAR}, 
         #{commodityType,jdbcType=CHAR}, 
-        #{averagePrice,jdbcType=DECIMAL}, 
-        #{quantity,jdbcType=REAL}, 
-        #{amount,jdbcType=DECIMAL}, 
-        #{taxAmt,jdbcType=DECIMAL}, 
-        #{averageTaxRate,jdbcType=DECIMAL})
+        #{inAveragePrice,jdbcType=DECIMAL}, 
+        #{inQuantity,jdbcType=REAL}, 
+        #{inAmount,jdbcType=DECIMAL}, 
+        #{inTaxAmt,jdbcType=DECIMAL}, 
+        #{inAverageTaxRate,jdbcType=DECIMAL},
+        #{outAveragePrice,jdbcType=DECIMAL},
+        #{outQuantity,jdbcType=DECIMAL},
+        #{outAmount,jdbcType=DECIMAL},
+        #{outTaxAmt,jdbcType=DECIMAL},
+        #{outAverageTaxRate,jdbcType=DECIMAL})
         ON DUPLICATE KEY UPDATE
-        AVERAGE_PRICE = #{averagePrice,jdbcType=DECIMAL},
-        QUANTITY = #{quantity,jdbcType=REAL},
-        AMOUNT = #{amount,jdbcType=DECIMAL},
-        TAX_AMT = #{taxAmt,jdbcType=DECIMAL},
-        AVERAGE_TAX_RATE = #{averageTaxRate,jdbcType=DECIMAL}
+        IN_AVERAGE_PRICE = #{inAveragePrice,jdbcType=DECIMAL},
+        IN_QUANTITY = #{inQuantity,jdbcType=REAL},
+        IN_AMOUNT = #{inAmount,jdbcType=DECIMAL},
+        IN_TAX_AMT = #{inTaxAmt,jdbcType=DECIMAL},
+        IN_AVERAGE_TAX_RATE = #{inAverageTaxRate,jdbcType=DECIMAL},
+        OUT_AVERAGE_PRICE =  #{outAveragePrice,jdbcType=DECIMAL},
+        OUT_QUANTITY =  #{outQuantity,jdbcType=DECIMAL},
+        OUT_AMOUNT =  #{outAmount,jdbcType=DECIMAL},
+        OUT_TAX_AMT = #{outTaxAmt,jdbcType=DECIMAL},
+        OUT_AVERAGE_TAX_RATE =  #{outAverageTaxRate,jdbcType=DECIMAL}
     </insert>
     
    
@@ -266,8 +282,8 @@
         <result column="SUPPLIER" property="supplier" jdbcType="VARCHAR" />
         <result column="WRITE_DATE" property="writeDate" jdbcType="CHAR" />
         <result column="CONFIRM_DATE" property="confirmDate" jdbcType="CHAR" />
-        <result column="CONFIRM_DATE" property="confirmDate" jdbcType="CHAR" />
-        <result column="OUT_DATE" property="outDate" jdbcType="VARCHAR" />
+        <result column="OUT_DATE" property="outDate" jdbcType="CHAR" />
+        <result column="USE_FOR" property="useFor" jdbcType="VARCHAR" />
         <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     </resultMap>
     
@@ -301,6 +317,19 @@
         </where>
     </sql>
     
+    <select id="selectDeliverySeq" parameterType="java.lang.String" resultType="java.lang.String">
+       SELECT
+         CASE
+           WHEN MAX(DELIVERY_NO) IS NULL
+           THEN CONCAT('CK',DATE_FORMAT(NOW(),'%Y%m%d'),'0000')
+           ELSE MAX(DELIVERY_NO) 
+         END AS SEQNO
+       FROM
+         TB_DELIVERY
+       WHERE
+         DEPOT_ID = #{depotId,jdbcType=CHAR}
+         AND DELIVERY_NO LIKE CONCAT('CK',DATE_FORMAT(NOW(),'%Y%m%d'),'%') 
+    </select>
 
     <select id="seletMulDelivery" resultMap="DeliveryResultMap">
         SELECT <include refid="DeliveryColumn" />
@@ -328,6 +357,73 @@
         <include refid="page.pageWhereList" />
     </select>
     
+    <insert id="insertOneDelivery" parameterType="Delivery">
+        INSERT INTO TB_DELIVERY(<include refid="DeliveryColumn" />) VALUES(
+            #{depotId,jdbcType=CHAR}, 
+            #{deliveryNo,jdbcType=CHAR}, 
+            #{type,jdbcType=CHAR}, 
+            #{status,jdbcType=CHAR}, 
+            #{registrantId,jdbcType=CHAR}, 
+            #{registrant,jdbcType=CHAR}, 
+            #{auditorId,jdbcType=CHAR}, 
+            #{auditor,jdbcType=CHAR}, 
+            #{consumer,jdbcType=CHAR}, 
+            #{supplier,jdbcType=VARCHAR}, 
+            #{writeDate,jdbcType=CHAR}, 
+            #{confirmDate,jdbcType=CHAR}, 
+            #{outDate,jdbcType=CHAR}, 
+            #{useFor,jdbcType=VARCHAR}, 
+            #{remark,jdbcType=VARCHAR}
+      )
+    </insert>
+    
+    <update id="updateOneDelivery">
+     UPDATE TB_DELIVERY
+      <set>
+        <if test="type != null" >
+          TYPE = #{type,jdbcType=CHAR},
+        </if>
+        <if test="status != null" >
+          STATUS = #{status,jdbcType=CHAR},
+        </if>
+        <if test="registrantId != null" >
+          REGISTRANT_ID = #{registrantId,jdbcType=CHAR},
+        </if>
+        <if test="registrant != null" >
+          REGISTRANT = #{registrant,jdbcType=CHAR},
+        </if>
+        <if test="auditorId != null" >
+          AUDITOR_ID = #{auditorId,jdbcType=CHAR},
+        </if>
+        <if test="auditor != null" >
+          AUDITOR = #{auditor,jdbcType=CHAR},
+        </if>
+        <if test="consumer != null" >
+          CONSUMER = #{consumer,jdbcType=CHAR},
+        </if>
+        <if test="supplier != null" >
+          SUPPLIER = #{supplier,jdbcType=VARCHAR},
+        </if>
+        <if test="writeDate != null" >
+          WRITE_DATE = #{writeDate,jdbcType=CHAR},
+        </if>
+        <if test="confirmDate != null" >
+          CONFIRM_DATE = #{confirmDate,jdbcType=CHAR},
+        </if>
+        <if test="outDate != null" >
+          OUT_DATE = #{outDate,jdbcType=CHAR},
+        </if>
+        <if test="useFor != null" >
+          USE_FOR = #{useFor,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null" >
+          REMARK = #{remark,jdbcType=VARCHAR},
+        </if>
+      </set>
+      WHERE DEPOT_ID = #{depotId,jdbcType=CHAR}
+        AND DELIVERY_NO = #{deliveryNo,jdbcType=CHAR}
+    </update>
+    
     <resultMap id="DeliveryDetailResultMap" type="DeliveryDetail">
         <id column="DEPOT_ID" property="depotId" jdbcType="CHAR" />
         <id column="DELIVERY_NO" property="deliveryNo" jdbcType="CHAR" />
@@ -341,6 +437,7 @@
         <result column="BRAND" property="brand" jdbcType="CHAR" />
         <result column="GROUP_ID" property="groupId" jdbcType="CHAR" />
         <result column="TYPE_ID" property="typeId" jdbcType="CHAR" />
+        <association property="productType" column="groupId=GROUP_ID,typeId=TYPE_ID}"  select="common.selectOneProductType"/>
     </resultMap>
     
     <sql id="DeliveryDetailColumn">
@@ -373,5 +470,24 @@
        DELETE FROM TB_DELIVERY_DETAIL
        <include refid="DeliveryDetailWhere" />
     </delete>
+    
+    <insert id="insertDeliveryDetail">
+        INSERT INTO TB_DELIVERY_DETAIL(
+            DEPOT_ID, DELIVERY_NO, COMMODITY_TYPE, UNIT_PRICE, QUANTITY, AMOUNT, 
+            TAX_RATE, TAX_AMT, NORM, BRAND
+        )VALUES
+        <foreach item="item" index="index" collection="deliveryDetailList" separator=",">
+	       (#{item.depotId,jdbcType=CHAR},
+	        #{item.deliveryNo,jdbcType=CHAR},   
+	        #{item.commodityType,jdbcType=CHAR}, 
+	        #{item.unitPrice,jdbcType=DECIMAL}, 
+	        #{item.quantity,jdbcType=REAL}, 
+	        #{item.amount,jdbcType=DECIMAL}, 
+	        #{item.taxRate,jdbcType=DECIMAL}, 
+	        #{item.taxAmt,jdbcType=DECIMAL}, 
+	        #{item.norm,jdbcType=CHAR}, 
+	        #{item.brand,jdbcType=CHAR})
+	    </foreach>
+    </insert>
 
 </mapper>

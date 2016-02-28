@@ -3,6 +3,8 @@ package com.erp.stm.serviceImpl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.erp.common.model.Page;
 import com.erp.common.util.Const;
 import com.erp.stm.IDAO.IDeliveryDAO;
@@ -10,6 +12,7 @@ import com.erp.stm.IService.IDeliveryService;
 import com.erp.stm.model.Delivery;
 import com.erp.stm.model.Receipt;
 
+@Transactional
 public class DeliveryService implements IDeliveryService{
 	
 	private IDeliveryDAO deliveryDAO;
@@ -57,6 +60,12 @@ public class DeliveryService implements IDeliveryService{
 			page.setPageCnt(totleCnt/Const.DEFAULT_BILL_PAGE_SIZE + 1);
 		}
 		return page;
+	}
+
+	@Override
+	public String getDeliverySeq(String depotId) {
+		// TODO Auto-generated method stub
+		return deliveryDAO.selectDeliverySeq(depotId);
 	}
 
 }

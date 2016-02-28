@@ -11,72 +11,122 @@ public class Inventory implements Serializable {
 
 	private String depotId;
 
-	private String commodityType;
+    private String commodityType;
 
-	private BigDecimal averagePrice;
+    private BigDecimal inAveragePrice;
 
-	private Float quantity;
+    private Float inQuantity;
 
-	private BigDecimal amount;
+    private BigDecimal inAmount;
 
-	private BigDecimal taxAmt;
+    private BigDecimal inTaxAmt;
 
-	private BigDecimal averageTaxRate;
+    private BigDecimal inAverageTaxRate;
 
-	public String getDepotId() {
-		return depotId;
-	}
+    private BigDecimal outAveragePrice;
 
-	public void setDepotId(String depotId) {
-		this.depotId = depotId;
-	}
+    private Float outQuantity;
 
-	public String getCommodityType() {
-		return commodityType;
-	}
+    private BigDecimal outAmount;
 
-	public void setCommodityType(String commodityType) {
-		this.commodityType = commodityType;
-	}
+    private BigDecimal outTaxAmt;
 
-	public BigDecimal getAveragePrice() {
-		return averagePrice;
-	}
+    private BigDecimal outAverageTaxRate;
 
-	public void setAveragePrice(BigDecimal averagePrice) {
-		this.averagePrice = averagePrice;
-	}
+    public String getDepotId() {
+        return depotId;
+    }
 
-	public Float getQuantity() {
-		return quantity;
-	}
+    public void setDepotId(String depotId) {
+        this.depotId = depotId;
+    }
 
-	public void setQuantity(Float quantity) {
-		this.quantity = quantity;
-	}
+    public String getCommodityType() {
+        return commodityType;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public void setCommodityType(String commodityType) {
+        this.commodityType = commodityType;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public BigDecimal getInAveragePrice() {
+        return inAveragePrice;
+    }
 
-	public BigDecimal getTaxAmt() {
-		return taxAmt;
-	}
+    public void setInAveragePrice(BigDecimal inAveragePrice) {
+        this.inAveragePrice = inAveragePrice;
+    }
 
-	public void setTaxAmt(BigDecimal taxAmt) {
-		this.taxAmt = taxAmt;
-	}
+    public Float getInQuantity() {
+        return inQuantity;
+    }
 
-	public BigDecimal getAverageTaxRate() {
-		return averageTaxRate;
-	}
+    public void setInQuantity(Float inQuantity) {
+        this.inQuantity = inQuantity;
+    }
 
-	public void setAverageTaxRate(BigDecimal averageTaxRate) {
-		this.averageTaxRate = averageTaxRate;
-	}
+    public BigDecimal getInAmount() {
+        return inAmount;
+    }
+
+    public void setInAmount(BigDecimal inAmount) {
+        this.inAmount = inAmount;
+    }
+
+    public BigDecimal getInTaxAmt() {
+        return inTaxAmt;
+    }
+
+    public void setInTaxAmt(BigDecimal inTaxAmt) {
+        this.inTaxAmt = inTaxAmt;
+    }
+
+    public BigDecimal getInAverageTaxRate() {
+        return inAverageTaxRate;
+    }
+
+    public void setInAverageTaxRate(BigDecimal inAverageTaxRate) {
+        this.inAverageTaxRate = inAverageTaxRate;
+    }
+
+    public BigDecimal getOutAveragePrice() {
+        return outAveragePrice;
+    }
+
+    public void setOutAveragePrice(BigDecimal outAveragePrice) {
+        this.outAveragePrice = outAveragePrice;
+    }
+
+    public Float getOutQuantity() {
+        return outQuantity;
+    }
+
+    public void setOutQuantity(Float outQuantity) {
+        this.outQuantity = outQuantity;
+    }
+
+    public BigDecimal getOutAmount() {
+        return outAmount;
+    }
+
+    public void setOutAmount(BigDecimal outAmount) {
+        this.outAmount = outAmount;
+    }
+
+    public BigDecimal getOutTaxAmt() {
+        return outTaxAmt;
+    }
+
+    public void setOutTaxAmt(BigDecimal outTaxAmt) {
+        this.outTaxAmt = outTaxAmt;
+    }
+
+    public BigDecimal getOutAverageTaxRate() {
+        return outAverageTaxRate;
+    }
+
+    public void setOutAverageTaxRate(BigDecimal outAverageTaxRate) {
+        this.outAverageTaxRate = outAverageTaxRate;
+    }
 
 }

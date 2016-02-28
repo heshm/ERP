@@ -67,5 +67,11 @@
 		    </result>
 		</action>
 		
+		<action name="ajaxGetInventory" class="com.erp.common.action.StaticModal" method="ajaxGetInventory">
+		    <result type="json">
+		        <param name="root">inventory</param>
+		    </result>
+		</action>
+		
 	</package>
 </struts>

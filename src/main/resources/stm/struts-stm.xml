@@ -53,7 +53,15 @@
 			<result name="success" type="tiles">delivery.index</result>
 		</action>
 		
-		<action name="deliveryBillModi" class="com.erp.stm.action.DeliveryBillModiAction" method="init">
+		<action name="deliveryBillCheck" class="com.erp.stm.action.DeliveryBillAction" method="check">
+			<result name="success" type="tiles">delivery.index</result>
+		</action>
+		
+		<action name="deliveryBillModiInit" class="com.erp.stm.action.DeliveryBillModiAction" method="init">
+			<result name="success" type="tiles">deliveryModi.index</result>
+		</action>
+		
+		<action name="deliveryBillModi" class="com.erp.stm.action.DeliveryBillModiAction" method="modi">
 			<result name="success" type="tiles">deliveryModi.index</result>
 		</action>
 

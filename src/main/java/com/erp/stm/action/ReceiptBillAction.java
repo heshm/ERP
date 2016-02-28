@@ -74,8 +74,6 @@ public class ReceiptBillAction extends CmAction{
 	    endDate = CommonUtil.getCurrentDate();
 		Map<String,Object> parmMap = new HashMap<String,Object>();
 		parmMap.put("depotId", Const.DEFAULT_DEPOT_ID);
-		//parmMap.put("startDate", startDate);
-		//parmMap.put("endDate", endDate);
 		parmMap.put("receiptNo", receiptNo);
 		parmMap.put("type", docketType);
 		page = receiptService.getIndexPage(1, parmMap);
