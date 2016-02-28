@@ -42,7 +42,7 @@ $(document).ready(function(){
 			style="width: 300px; margin-left: -150px; top: 30%">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">系统提示</h3>
+				<h3 id="msgLevel">系统提示</h3>
 			</div>
 			<div class="modal-body">
 		 
@@ -54,12 +54,21 @@ $(document).ready(function(){
 
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true">确定</button>
+				<button id="msgBtn" class="btn btn-info" data-dismiss="modal" aria-hidden="true">确定</button>
 			</div>
 		</div>
 	</div>
 </div>
-<s:if test="hasActionMessages()||hasActionErrors()||hasFieldErrors()"> 
+<s:if test="hasActionErrors()||hasFieldErrors()"> 
+  <script language="JavaScript"> 
+      $("#msgLevel").text("系统处理失败");
+      $("#msgLevel").css("color","#953b39");
+      $("#msgBtn").removeClass("btn-info");
+      $("#msgBtn").addClass("btn-danger");
+      $("#alertModal").modal();
+  </script>
+</s:if>
+<s:if test="hasActionMessages()"> 
   <script language="JavaScript"> 
       $("#alertModal").modal();
   </script>

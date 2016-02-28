@@ -13,14 +13,17 @@
         <result column="REGISTRANT" jdbcType="CHAR" property="registrant" />
         <result column="AUDITOR" jdbcType="CHAR" property="auditor" />
         <result column="SUPPLIER" jdbcType="VARCHAR" property="supplier" />
-        <result column="WRITE_DATE" jdbcType="TIMESTAMP" property="writeDate" />
-        <result column="CONFIRM_DATE" jdbcType="TIMESTAMP" property="confirmDate" />
+        <result column="WRITE_DATE" jdbcType="CHAR" property="writeDate" />
+        <result column="WRITER_ID" jdbcType="CHAR" property="writerId" />
+        <result column="WRITER_NAME" jdbcType="CHAR" property="writerName" />
+        <result column="CONFIRM_DATE" jdbcType="CHAR" property="confirmDate" />
+        <result column="ENTER_DATE" jdbcType="CHAR" property="enterDate" />
         <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     </resultMap>
     
     <sql id="ReceiptColumn">
-        DEPOT_ID, RECEIPT_NO, TYPE, STATUS, REGISTRANT, AUDITOR, 
-        SUPPLIER, WRITE_DATE, CONFIRM_DATE, REMARK
+        DEPOT_ID, RECEIPT_NO, TYPE, STATUS, REGISTRANT, AUDITOR, SUPPLIER, WRITE_DATE, WRITER_ID, 
+        WRITER_NAME, CONFIRM_DATE, ENTER_DATE, REMARK
     </sql>
     
     <sql id="ReceiptWhere">
@@ -35,16 +38,30 @@
 	            AND TYPE = #{type,jdbcType=CHAR}
 	        </if>
 	        <if test="startDate != null and startDate != ''">
-	            AND DATE_FORMAT(WRITE_DATE,'%Y-%m-%d') &gt;= #{startDate,jdbcType=TIMESTAMP}
+	            AND SUBSTR(WRITE_DATE,1,10) &gt;= #{startDate,jdbcType=CHAR}
 	        </if>
 	        <if test="endDate != null and endDate != ''">
-	            AND DATE_FORMAT(WRITE_DATE,'%Y-%m-%d') &lt;= #{endDate,jdbcType=TIMESTAMP}
+	            AND SUBSTR(WRITE_DATE,1,10) &lt;= #{endDate,jdbcType=CHAR}
 	        </if>
 	        <if test="status != null and status != ''">
 	            AND STATUS = #{status,jdbcType=CHAR}
 	        </if>
         </where> 
     </sql>
+     
+    <select id="getReceiptSeq" parameterType="java.lang.String" resultType="java.lang.String">
+       SELECT
+         CASE
+           WHEN MAX(RECEIPT_NO) IS NULL
+           THEN CONCAT('RK',DATE_FORMAT(NOW(),'%Y%m%d'),'0000')
+           ELSE MAX(RECEIPT_NO) 
+         END AS SEQNO
+       FROM
+         TB_RECEIPT
+       WHERE
+         DEPOT_ID = #{depotId,jdbcType=CHAR}
+         AND RECEIPT_NO LIKE CONCAT('RK',DATE_FORMAT(NOW(),'%Y%m%d'),'%') 
+    </select>
     
     <select id="selectMulReceipt" parameterType="map" resultMap="ReceiptResultMap">
         SELECT 
@@ -74,7 +91,7 @@
         <include refid="ReceiptWhere" />
     </select>
     
-    <update id="updateOneReceipt" parameterType="map" >
+    <update id="updateOneReceipt">
         UPDATE TB_RECEIPT
         <set >
             <if test="type != null" >
@@ -93,10 +110,10 @@
                 supplier = #{supplier,jdbcType=VARCHAR},
             </if>
             <if test="writeDate != null" >
-                write_date = #{writeDate,jdbcType=TIMESTAMP},
+                write_date = #{writeDate,jdbcType=CHAR},
             </if>
             <if test="confirmDate != null" >
-                confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
+                confirm_date = #{confirmDate,jdbcType=CHAR},
             </if>
             <if test="remark != null" >
                 remark = #{remark,jdbcType=VARCHAR},
@@ -105,6 +122,23 @@
         WHERE DEPOT_ID = #{depotId,jdbcType=CHAR}
         AND RECEIPT_NO = #{receiptNo,jdbcType=CHAR}
     </update>
+    
+    <insert id="insertOneReceipt" parameterType="Receipt">
+      insert into tb_receipt (<include refid="ReceiptColumn" />)
+      values (#{depotId,jdbcType=CHAR}, 
+          #{receiptNo,jdbcType=CHAR}, 
+          #{type,jdbcType=CHAR}, 
+          #{status,jdbcType=CHAR}, 
+          #{registrant,jdbcType=CHAR}, 
+          #{auditor,jdbcType=CHAR}, 
+          #{supplier,jdbcType=VARCHAR}, 
+          #{writeDate,jdbcType=CHAR}, 
+          #{writerId,jdbcType=CHAR}, 
+          #{writerName,jdbcType=CHAR},
+          #{confirmDate,jdbcType=CHAR}, 
+          #{enterDate,jdbcType=CHAR},
+          #{remark,jdbcType=VARCHAR})
+    </insert>
     
     <delete id="deleteOneReceipt" parameterType="map" >
         DELETE FROM TB_RECEIPT
@@ -154,6 +188,29 @@
         <include refid="ReceiptDetailWhere" />
     </select>
     
+    <delete id="deleteReceiptDetail" parameterType="map">
+       DELETE FROM TB_RECEIPT_DETAIL
+       <include refid="ReceiptDetailWhere" />
+    </delete>
+    
+    <insert id="insertReceiptDetail">
+        INSERT INTO TB_RECEIPT_DETAIL(
+          DEPOT_ID, RECEIPT_NO, COMMODITY_TYPE, UNIT_PRICE, QUANTITY, AMOUNT, TAX_RATE, TAX_AMT, 
+          NORM ,BRAND
+        ) VALUES
+        <foreach item="item" index="index" collection="receiptDetailList" separator=",">
+	       (#{item.depotId,jdbcType=CHAR},
+	        #{item.receiptNo,jdbcType=CHAR},   
+	        #{item.commodityType,jdbcType=CHAR}, 
+	        #{item.unitPrice,jdbcType=DECIMAL}, 
+	        #{item.quantity,jdbcType=REAL}, 
+	        #{item.amount,jdbcType=DECIMAL}, 
+	        #{item.taxRate,jdbcType=DECIMAL}, 
+	        #{item.taxAmt,jdbcType=DECIMAL}, 
+	        #{item.norm,jdbcType=CHAR}, 
+	        #{item.brand,jdbcType=CHAR})
+	    </foreach>
+    </insert>
     
     <resultMap id="InventoryResultMap" type="Inventory" >
         <id column="DEPOT_ID" property="depotId" jdbcType="CHAR" />
@@ -195,4 +252,126 @@
         AVERAGE_TAX_RATE = #{averageTaxRate,jdbcType=DECIMAL}
     </insert>
     
+   
+    <resultMap id="DeliveryResultMap" type="Delivery" >
+        <id column="DEPOT_ID" property="depotId" jdbcType="CHAR" />
+        <id column="DELIVERY_NO" property="deliveryNo" jdbcType="CHAR" />
+        <result column="TYPE" property="type" jdbcType="CHAR" />
+        <result column="STATUS" property="status" jdbcType="CHAR" />
+        <result column="REGISTRANT_ID" property="registrantId" jdbcType="CHAR" />
+        <result column="REGISTRANT" property="registrant" jdbcType="CHAR" />
+        <result column="AUDITOR_ID" property="auditorId" jdbcType="CHAR" />
+        <result column="AUDITOR" property="auditor" jdbcType="CHAR" />
+        <result column="CONSUMER" property="consumer" jdbcType="CHAR" />
+        <result column="SUPPLIER" property="supplier" jdbcType="VARCHAR" />
+        <result column="WRITE_DATE" property="writeDate" jdbcType="CHAR" />
+        <result column="CONFIRM_DATE" property="confirmDate" jdbcType="CHAR" />
+        <result column="CONFIRM_DATE" property="confirmDate" jdbcType="CHAR" />
+        <result column="OUT_DATE" property="outDate" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+    
+ 
+    <sql id="DeliveryColumn">
+        DEPOT_ID, DELIVERY_NO, TYPE, STATUS, REGISTRANT_ID, REGISTRANT, AUDITOR_ID, 
+        AUDITOR, CONSUMER, SUPPLIER, WRITE_DATE, CONFIRM_DATE, OUT_DATE, USE_FOR, REMARK
+    </sql>
+    
+    
+    <sql id="DeliveryWhere">
+        <where>
+            <if test="depotId != null and depotId != ''" >
+                DEPOT_ID = #{depotId,jdbcType=CHAR}
+            </if>
+            <if test="deliveryNo != null and deliveryNo != ''" >
+                AND DELIVERY_NO = #{deliveryNo,jdbcType=CHAR}
+            </if>
+            <if test="type != null and type != ''" >
+                AND TYPE = #{type,jdbcType=CHAR}
+            </if>
+            <if test="status != null and status != ''" >
+                AND STATUS = #{status,jdbcType=CHAR}
+            </if>
+            <if test="startDate != null and startDate != ''">
+	            AND SUBSTR(WRITE_DATE,1,10) &gt;= #{startDate,jdbcType=CHAR}
+	        </if>
+	        <if test="endDate != null and endDate != ''">
+	            AND SUBSTR(WRITE_DATE,1,10) &lt;= #{endDate,jdbcType=CHAR}
+	        </if>
+        </where>
+    </sql>
+    
+
+    <select id="seletMulDelivery" resultMap="DeliveryResultMap">
+        SELECT <include refid="DeliveryColumn" />
+        FROM TB_DELIVERY
+        <include refid="DeliveryWhere" />
+    </select>
+    
+    <select id="seletOneDelivery" resultMap="DeliveryResultMap">
+        SELECT <include refid="DeliveryColumn" />
+        FROM TB_DELIVERY
+        <include refid="DeliveryWhere" />
+    </select>
+    
+    <select id="selectDeliveryPageCnt" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TB_DELIVERY
+        <include refid="DeliveryWhere" />
+    </select>
+    
+    <select id="selectDeliveryPageData" resultMap="DeliveryResultMap">
+        <include refid="page.pageSelectList" />
+        SELECT 
+          <include refid="DeliveryColumn" />
+        FROM TB_DELIVERY
+        <include refid="DeliveryWhere" />
+        <include refid="page.pageWhereList" />
+    </select>
+    
+    <resultMap id="DeliveryDetailResultMap" type="DeliveryDetail">
+        <id column="DEPOT_ID" property="depotId" jdbcType="CHAR" />
+        <id column="DELIVERY_NO" property="deliveryNo" jdbcType="CHAR" />
+        <id column="COMMODITY_TYPE" property="commodityType" jdbcType="CHAR" />
+        <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+        <result column="QUANTITY" property="quantity" jdbcType="REAL" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="TAX_RATE" property="taxRate" jdbcType="DECIMAL" />
+        <result column="TAX_AMT" property="taxAmt" jdbcType="DECIMAL" />
+        <result column="NORM" property="norm" jdbcType="CHAR" />
+        <result column="BRAND" property="brand" jdbcType="CHAR" />
+        <result column="GROUP_ID" property="groupId" jdbcType="CHAR" />
+        <result column="TYPE_ID" property="typeId" jdbcType="CHAR" />
+    </resultMap>
+    
+    <sql id="DeliveryDetailColumn">
+         DEPOT_ID, DELIVERY_NO, COMMODITY_TYPE, UNIT_PRICE, QUANTITY, AMOUNT, TAX_RATE, TAX_AMT, 
+         NORM, BRAND, SUBSTR(COMMODITY_TYPE,1,2) AS GROUP_ID ,SUBSTR(COMMODITY_TYPE,3,3) AS TYPE_ID
+    </sql>
+    
+    <sql id="DeliveryDetailWhere">
+        <where>
+            <if test="depotId != null and depotId != ''">
+	            DEPOT_ID = #{depotId,jdbcType=CHAR}
+	        </if>
+	        <if test="deliveryNo != null and deliveryNo != ''">
+	            AND DELIVERY_NO = #{deliveryNo,jdbcType=CHAR}
+	        </if>
+	        <if test="commodityType != null and commodityType != ''">
+	            AND COMMODITY_TYPE = #{commodityType,jdbcType=CHAR}
+	        </if>
+        </where> 
+    </sql>
+    
+     <select id="selectMulDeliveryDetail" parameterType="map" resultMap="DeliveryDetailResultMap">
+        SELECT 
+          <include refid="DeliveryDetailColumn" />
+        FROM TB_DELIVERY_DETAIL
+        <include refid="DeliveryDetailWhere" />
+    </select>
+    
+    <delete id="deleteDeliveryDetail" parameterType="map">
+       DELETE FROM TB_DELIVERY_DETAIL
+       <include refid="DeliveryDetailWhere" />
+    </delete>
+
 </mapper>

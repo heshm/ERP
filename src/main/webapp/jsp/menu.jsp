@@ -17,8 +17,8 @@
     
  	<div class="collapsed">
 		<span>出库登记</span>
-		<a href="#">采购退货</a>
-		<a href="#">领用退库</a>
+		<a href="<%=request.getContextPath()%>/stm/deliveryBillInit.action?docketType=3">采购退货</a>
+		<a href="<%=request.getContextPath()%>/stm/deliveryBillInit.action?docketType=4">领用退库</a>
 
 	</div>
  	<div class="collapsed">

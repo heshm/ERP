@@ -20,6 +20,10 @@ public interface IReceiptDAO extends IPageDAO{
 	
 	public static final String UPDATE_ONE_RECEIPT = "updateOneReceipt";
 	
+	public static final String INSERT_ONE_RECEIPT = "insertOneReceipt";
+	
+	public static final String GET_RECEIPT_SEQ = "getReceiptSeq";
+	
 	public abstract List<Receipt> selectMulReceipt(@SuppressWarnings("rawtypes") Map parmMap);
 	
 	public abstract Receipt selectOneReceipt(@SuppressWarnings("rawtypes") Map parmMap);
@@ -27,5 +31,11 @@ public interface IReceiptDAO extends IPageDAO{
 	public abstract int deleteOneReceipt(@SuppressWarnings("rawtypes") Map parmMap);
 	
 	public abstract int updateOneReceipt(@SuppressWarnings("rawtypes") Map parmMap);
+	
+	public abstract int updateOneReceipt(Receipt receipt);
+	
+	public abstract int insertOneReceipt(Receipt receipt);
+	
+	public abstract String getReceiptSeq(String depotId);
 
 }

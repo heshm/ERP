@@ -31,6 +31,13 @@
         <put-attribute name="main" value="/jsp/stm/receiptBillModi.jsp"/>
     </definition>
     
+    <definition name="delivery.index" extends="main.index">
+        <put-attribute name="main" value="/jsp/stm/deliveryBill.jsp"/>
+    </definition>
+    
+    <definition name="deliveryModi.index" extends="main.index">
+        <put-attribute name="main" value="/jsp/stm/deliveryBillModi.jsp"/>
+    </definition>
     
     
 </tiles-definitions>

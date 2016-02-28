@@ -1,29 +1,39 @@
 package com.erp.stm.model;
 
-public class Receipt {
-    private String depotId;
+import java.io.Serializable;
 
-    private String receiptNo;
+import org.apache.ibatis.type.Alias;
+
+@Alias("Delivery")
+public class Delivery implements Serializable {
+
+	private String depotId;
+
+    private String deliveryNo;
 
     private String type;
 
     private String status;
 
+    private String registrantId;
+
     private String registrant;
 
+    private String auditorId;
+
     private String auditor;
+    
+    private String consumer;
 
     private String supplier;
 
     private String writeDate;
 
-    private String writerId;
-
-    private String writerName;
-
     private String confirmDate;
 
-    private String enterDate;
+    private String outDate;
+    
+    private String useFor;
 
     private String remark;
 
@@ -35,12 +45,12 @@ public class Receipt {
         this.depotId = depotId;
     }
 
-    public String getReceiptNo() {
-        return receiptNo;
+    public String getDeliveryNo() {
+        return deliveryNo;
     }
 
-    public void setReceiptNo(String receiptNo) {
-        this.receiptNo = receiptNo;
+    public void setDeliveryNo(String deliveryNo) {
+        this.deliveryNo = deliveryNo;
     }
 
     public String getType() {
@@ -59,12 +69,28 @@ public class Receipt {
         this.status = status;
     }
 
+    public String getRegistrantId() {
+        return registrantId;
+    }
+
+    public void setRegistrantId(String registrantId) {
+        this.registrantId = registrantId;
+    }
+
     public String getRegistrant() {
         return registrant;
     }
 
     public void setRegistrant(String registrant) {
         this.registrant = registrant;
+    }
+
+    public String getAuditorId() {
+        return auditorId;
+    }
+
+    public void setAuditorId(String auditorId) {
+        this.auditorId = auditorId;
     }
 
     public String getAuditor() {
@@ -75,7 +101,15 @@ public class Receipt {
         this.auditor = auditor;
     }
 
-    public String getSupplier() {
+    public String getConsumer() {
+		return consumer;
+	}
+
+	public void setConsumer(String consumer) {
+		this.consumer = consumer;
+	}
+
+	public String getSupplier() {
         return supplier;
     }
 
@@ -91,22 +125,6 @@ public class Receipt {
         this.writeDate = writeDate;
     }
 
-    public String getWriterId() {
-        return writerId;
-    }
-
-    public void setWriterId(String writerId) {
-        this.writerId = writerId;
-    }
-
-    public String getWriterName() {
-        return writerName;
-    }
-
-    public void setWriterName(String writerName) {
-        this.writerName = writerName;
-    }
-
     public String getConfirmDate() {
         return confirmDate;
     }
@@ -115,12 +133,20 @@ public class Receipt {
         this.confirmDate = confirmDate;
     }
 
-    public String getEnterDate() {
-        return enterDate;
+    public String getOutDate() {
+		return outDate;
+	}
+
+	public void setOutDate(String outDate) {
+		this.outDate = outDate;
+	}
+
+	public String getUseFor() {
+        return useFor;
     }
 
-    public void setEnterDate(String enterDate) {
-        this.enterDate = enterDate;
+    public void setUseFor(String useFor) {
+        this.useFor = useFor;
     }
 
     public String getRemark() {

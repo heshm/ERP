@@ -23,6 +23,14 @@
 	<bean id="inventoryDAO" class="com.erp.stm.DAOImpl.InventoryDAO">
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
+	
+	<bean id="deliveryDAO" class="com.erp.stm.DAOImpl.DeliveryDAO">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	
+	<bean id="deliveryDetailDAO" class="com.erp.stm.DAOImpl.DeliveryDetailDAO">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
 
 
 	<bean id="receiptService" class="com.erp.stm.serviceImpl.ReceiptService">
@@ -36,6 +44,20 @@
 	<bean id="receiptBillService" class="com.erp.stm.serviceImpl.ReceiptBillService">
 	    <property name="receiptDAO" ref="receiptDAO" />
 		<property name="receiptDetailDAO" ref="receiptDetailDAO" />
+		<property name="inventoryDAO" ref="inventoryDAO" />
+	</bean>
+	
+	<bean id="deliveryService" class="com.erp.stm.serviceImpl.DeliveryService">
+		<property name="deliveryDAO" ref="deliveryDAO" />
+	</bean>
+	
+	<bean id="deliveryDetailService" class="com.erp.stm.serviceImpl.DeliveryDetailService">
+		<property name="deliveryDetailDAO" ref="deliveryDetailDAO" />
+	</bean>
+	
+	<bean id="deliveryBillService" class="com.erp.stm.serviceImpl.DeliveryBillService">
+	    <property name="deliveryDAO" ref="deliveryDAO" />
+		<property name="deliveryDetailDAO" ref="deliveryDetailDAO" />
 		<property name="inventoryDAO" ref="inventoryDAO" />
 	</bean>
 

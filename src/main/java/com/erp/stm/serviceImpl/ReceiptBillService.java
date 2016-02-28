@@ -48,6 +48,7 @@ public class ReceiptBillService implements IReceiptBillService {
 	@Override
 	public ReceiptBillForm getOneReceiptBillForm(@SuppressWarnings("rawtypes") Map parmMap) {
 		Receipt receipt = receiptDAO.selectOneReceipt(parmMap);
+		
 		List<ReceiptDetail> receiptDetail = receiptDetailDAO.selectMulReceiptDetail(parmMap);
 		
 		ReceiptBillForm receiptBillForm = new ReceiptBillForm(receipt,receiptDetail);
@@ -73,6 +74,9 @@ public class ReceiptBillService implements IReceiptBillService {
 		parmMap.put("depotId", depotId);
 		parmMap.put("receiptNo", receiptNo);
 		Receipt receipt = receiptDAO.selectOneReceipt(parmMap);
+		if(user.getUserId().equals(receipt.getWriterId())){
+			throw new RuntimeException("登记人与审核人不能是同一人!");
+		}
 		//System.out.println(receipt.getStatus());
 		if(receipt.getStatus().equals(Const.BILL_UNCONFIRM)){
 			List<ReceiptDetail> receiptDetail = receiptDetailDAO.selectMulReceiptDetail(parmMap);
@@ -86,6 +90,7 @@ public class ReceiptBillService implements IReceiptBillService {
 				Inventory inventory = inventoryDAO.selectOneInventory(inventoryMap);
 				if(inventory == null){
 					inventory = new Inventory();
+					//System.out.println("AAAAA");
 					inventory.setDepotId(detail.getDepotId());
 					inventory.setCommodityType(detail.getCommodityType());
 					inventory.setQuantity(detail.getQuantity());
@@ -93,26 +98,41 @@ public class ReceiptBillService implements IReceiptBillService {
 					inventory.setAmount(detail.getAmount());
 					inventory.setTaxAmt(detail.getTaxAmt());
 					inventory.setAverageTaxRate(detail.getTaxRate());
+
 				}else{
 					inventory.setQuantity(inventory.getQuantity() + detail.getQuantity());
 					BigDecimal quantity = new BigDecimal(inventory.getQuantity().toString());
+		
 					inventory.setAmount(
 							inventory.getAmount().
 							add(detail.getAmount()));
+			
 					inventory.setTaxAmt(
 							inventory.getTaxAmt().
 							add(detail.getTaxAmt()));
+					//System.out.println("SSSSSSSSSSS");
+					//System.out.println(inventory.getAmount());
+					//System.out.println(quantity);
+			
 					inventory.setAveragePrice(
 							inventory.getAmount().
-							divide(quantity).
-							setScale(Const.DEFAULT_DEC_NO, BigDecimal.ROUND_HALF_UP));
+							divide(quantity,Const.DEFAULT_DEC_NO,BigDecimal.ROUND_HALF_UP));
+					//System.out.println("EEEE");
+					//System.out.println(inventory.getTaxAmt());
+					//System.out.println(inventory.getAmount());
+					
 					inventory.setAverageTaxRate(
 							inventory.getTaxAmt().
-							divide(inventory.getAmount()).
 							multiply(new BigDecimal("100")).
-							setScale(3, BigDecimal.ROUND_HALF_UP));
+							divide(inventory.getAmount(),3,BigDecimal.ROUND_HALF_UP));
+					//System.out.println("FFFF");
 				}
+				//System.out.println(inventory.getAverageTaxRate());
+				//System.out.println("IIII");
+				//System.out.println(inventory.getTaxAmt().
+						//divide(inventory.getAmount()));
 				inventoryDAO.insertUpdateOneInventory(inventory);	
+				//System.out.println("JJJJ");
 			}
 			parmMap.put("status", Const.BILL_CONFIRM);
 			parmMap.put("auditor", user.getUserName());
@@ -123,6 +143,58 @@ public class ReceiptBillService implements IReceiptBillService {
 			throw new RuntimeException("单据号为(" + receiptNo + ")的单据已审核!");
 		}
 		
+		return Const.SUCCESS;
+	}
+
+	@Override
+	public int updateOneReceiptBill(ReceiptBillForm receiptBillForm,User user) {
+		Receipt receipt = receiptBillForm.getReceipt();
+		Map<String,String> receiptMap = new HashMap<String,String>();
+		receiptMap.put("depotId", receipt.getDepotId());
+		receiptMap.put("receiptNo", receipt.getReceiptNo());
+		Receipt temp = receiptDAO.selectOneReceipt(receiptMap);
+		if(temp != null){
+			if(temp.getStatus().equals(Const.BILL_CONFIRM)){
+				throw new RuntimeException("单据号为(" + receipt.getReceiptNo() + ")的单据已被审核!");
+			}else{
+				receipt.setStatus(Const.BILL_UNCONFIRM);
+				//System.out.println(receipt.getWriteDate());
+				receiptDAO.updateOneReceipt(receipt);
+			}
+			
+		}else{
+			receipt.setWriteDate(CommonUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss "));
+			receipt.setConfirmDate("");
+			receipt.setAuditor("");
+			receipt.setStatus(Const.BILL_UNCONFIRM);
+			receipt.setWriterId(user.getUserId());
+			receipt.setWriterName(user.getUserName());
+			receiptDAO.insertOneReceipt(receipt);
+		}
+		receiptDetailDAO.deleteReceiptDetail(receiptMap);
+	
+		List<ReceiptDetail> list = receiptBillForm.getReceiptDetail();
+		
+		if (list != null){
+		    for(ReceiptDetail receiptDetial : list){
+			    BigDecimal quantity = new BigDecimal(receiptDetial.getQuantity().toString());
+			    receiptDetial.setAmount(receiptDetial.getUnitPrice()
+					    .multiply(quantity)
+					    .setScale(Const.DEFAULT_DEC_NO, BigDecimal.ROUND_HALF_UP));
+			    receiptDetial.setTaxAmt(receiptDetial.getUnitPrice()
+					    .multiply(quantity)
+					    .multiply(receiptDetial.getTaxRate())
+					    .divide(new BigDecimal("100"))
+					    .setScale(Const.DEFAULT_DEC_NO, BigDecimal.ROUND_HALF_UP));
+			    receiptDetial.setDepotId(receipt.getDepotId());
+			    receiptDetial.setReceiptNo(receipt.getReceiptNo());
+		    }
+		    Map<String,List<ReceiptDetail>> detailMap = new HashMap<String,List<ReceiptDetail>>();
+			detailMap.put("receiptDetailList", list);
+			receiptDetailDAO.insertReceiptDetail(detailMap);
+		}else{
+			throw new RuntimeException("单据号为(" + receipt.getReceiptNo() + ")的单据下无货品!");
+		}
 		return Const.SUCCESS;
 	}
 

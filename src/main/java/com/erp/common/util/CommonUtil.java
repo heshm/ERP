@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.apache.commons.lang.StringUtils;
+
 public class CommonUtil {
 	
 	public static String getFirstDayOfTheMonth(){
@@ -49,14 +51,40 @@ public class CommonUtil {
 		SimpleDateFormat df = new SimpleDateFormat(format);
 		return df.format(date);
 	}
+	
+	public static String getNextSeqNo(String seqNo,int length){
+		int nextNo = Integer.parseInt(seqNo);
+		nextNo ++;
+		seqNo = "" + nextNo;
+		for(int i = seqNo.length();i < length; i++){
+			seqNo = "0" + seqNo;
+		}
+		seqNo = StringUtils.leftPad(seqNo, length);
+		return seqNo;
+	}
+	
+	public static String getNextRKSeqNo(String rKseqNo){
+		
+		String current = rKseqNo.substring(10,14);
+		String next = getNextSeqNo(current,4);
+		rKseqNo = rKseqNo.substring(0,10);
+		rKseqNo = rKseqNo + next;
+		//System.out.println(current);
+		return rKseqNo;
+	}
+	
+	public static String dataFormat(String str){
+		if(str.length() <= 10){
+			return str;
+		}else{
+			return str.substring(0,10);
+		}
+	}
 
 
 	public static void main(String[] args) {
 		
-
-		System.out.println(getFirstDayOfTheMonth());
-		
-		System.out.println(getLastDay());
+		System.out.println(dataFormat("2012-12-10    "));
 	}
 
 }

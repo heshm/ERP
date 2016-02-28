@@ -55,51 +55,40 @@ function receiptBillUpdate(){
 </script>
 </head>
 <div class="title_right">
-    <s:if test="%{docketType==1}">
-        <strong>采购入库单填写</strong>
+    <s:if test="%{#session.docketType==3}">
+        <strong>采购退货单填写</strong>
 
     </s:if>
-	<s:if test="%{docketType==2}">
-       <strong>生产入库单填写</strong>
+	<s:if test="%{#session.docketType==4}">
+       <strong>领用退库单填写</strong>
     </s:if>
 </div>
 <div style="width: 900px; margin: auto;">
     <s:form name="receiptBillForm" method="post" action="receiptBillModi" namespace="/stm" theme="simple">
-    <s:hidden name="update"/>
-    <s:hidden name="docketType"/>
-    <s:hidden name="receiptBillForm.receipt.depotId"/>
-    <s:hidden name="receiptNo"/>
 	<table class="table table-bordered">
 		<tr>
-			<td width="15%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">单号：</td>
-			<td width="35%">
-			  <s:if test="%{update==1}">
-			    <span><s:property value="%{receiptBillForm.receipt.receiptNo}"/></span>
-			    <s:hidden name="receiptBillForm.receipt.receiptNo"/>
-			  </s:if>
-			  <s:if test="%{update==0}">
-			    <span><s:property value="%{receiptNo}"/></span>
-			    <s:hidden name="receiptBillForm.receipt.receiptNo" value="%{receiptNo}"/>
-			  </s:if>
+			<td width="12%" align="right" nowrap="nowrap"bgcolor="#f1f1f1">单号：</td>
+			<td width="38%">
+			  
+			    <span>CK201401010001</span>
+		
 			</td>
 			
-			<td width="15%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">制单日期：</td>
-			<td width="35%"><s:property value="%{writeDate}"/>
-			<s:hidden name="receiptBillForm.writeDate" /></td>
-			
+			<td width="12%" align="right" nowrap="nowrap"bgcolor="#f1f1f1">制单日期：</td>
+			<td width="38%">2016-02-02</td>	
 		</tr>
 		<tr>
-		    <td width="15%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">入库人：</td>
-			<td width="35%"><s:textfield name="receiptBillForm.receipt.registrant" class="span1-1"/></td>
-			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">入库日期：</td>
+			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">领用人：</td>
+			<td><s:textfield name="receiptBillForm.receipt.enterDate" class="laydate-icon span1-1" id="Calendar2" /></td>
+			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">出库日期：</td>
 			<td><s:textfield name="receiptBillForm.receipt.enterDate" class="laydate-icon span1-1" id="Calendar2" /></td>
 			
 		</tr>
 		<tr>
-			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">审核状态：</td>
-			<td><s:select id="status" name="receiptBillForm.receipt.status" list="#{'0':'未审核','1':'已审核'}" class="span1-1" theme="simple"/></td>
-			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">供应商/部门：</td>
-			<td><s:textfield name="receiptBillForm.receipt.supplier"  class="span4" /></td>
+			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">供应商：</td>
+			<td><s:textfield name="receiptBillForm.receipt.enterDate" class="span4"/></td>
+			<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用途：</td>
+			<td><s:textfield name="receiptBillForm.receipt.enterDate" class="span4"/></td>
 			
 		</tr>
 		<tr>
@@ -233,14 +222,17 @@ function receiptBillUpdate(){
            <td align="right">税额:</td>
            <td align="left"><span id="shuie">0.00</span></td>
          </tr>
- 
+         <tr>
+           <td align="right">当前库存:</td>
+           <td align="left" colspan="3">10000</td>
+         </tr>
      </table>
-
 		</div>
 		<div class="modal-footer">
 		    <a class="btn btn-info" onclick="addNewRow()">添加</a> 
             <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">取消</button> 
 	    </div>
+	    
     </div>
 	<!--  
 	<div class="alert">

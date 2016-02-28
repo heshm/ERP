@@ -50,8 +50,21 @@ public class ReceiptDAO implements IReceiptDAO {
 		return sqlSession.update(UPDATE_ONE_RECEIPT, parmMap);
 	}
 
-	
+	@Override
+	public int updateOneReceipt(Receipt receipt) {
+		return sqlSession.update(UPDATE_ONE_RECEIPT, receipt);
+	}
 
+	@Override
+	public int insertOneReceipt(Receipt receipt) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(INSERT_ONE_RECEIPT, receipt);
+	}
 
+	@Override
+	public String getReceiptSeq(String depotId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(GET_RECEIPT_SEQ, depotId);
+	}
 
 }

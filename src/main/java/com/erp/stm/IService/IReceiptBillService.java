@@ -10,5 +10,7 @@ public interface IReceiptBillService {
 	public abstract ReceiptBillForm getOneReceiptBillForm(@SuppressWarnings("rawtypes") Map parmMap);
 	
 	public abstract int checkReceiptBillForm(String depotId,String receiptNo,User user);
+	
+	public abstract int updateOneReceiptBill(ReceiptBillForm receiptBillForm,User user);
 
 }

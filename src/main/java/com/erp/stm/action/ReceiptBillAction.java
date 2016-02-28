@@ -48,8 +48,6 @@ public class ReceiptBillAction extends CmAction{
 		parmMap.put("receiptNo", receiptNo);
 		parmMap.put("type", docketType);
 		parmMap.put("status", status);
-		page = receiptService.getIndexPage(index, parmMap);
-	
 	    page = receiptService.getIndexPage(index, parmMap);
 		return SUCCESS;
 	}
@@ -81,7 +79,7 @@ public class ReceiptBillAction extends CmAction{
 		parmMap.put("receiptNo", receiptNo);
 		parmMap.put("type", docketType);
 		page = receiptService.getIndexPage(1, parmMap);
-		//receiptNo = Const.DEFAULT_EMPTY_STRING;
+		receiptNo = Const.DEFAULT_EMPTY_STRING;
 		
 		return SUCCESS;
 	}

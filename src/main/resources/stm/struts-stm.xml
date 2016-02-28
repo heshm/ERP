@@ -34,5 +34,28 @@
 			<result name="success" type="tiles">receiptModi.index</result>
 		</action>
 		
+	 
+		<action name="receiptBillModi" class="com.erp.stm.action.ReceiptBillModiAction" method="modi">
+			<result name="success" type="tiles">receiptModi.index</result>
+		</action>
+		
+		<action name="deliveryBillInit" class="com.erp.stm.action.DeliveryBillAction" method="init">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/stm</param>
+				<param name="actionName">deliveryBillQuery</param>
+				<param name="index">${index}</param>
+				<param name="startDate">${startDate}</param>
+				<param name="endDate">${endDate}</param>
+			</result>
+		</action>
+		
+		<action name="deliveryBillQuery" class="com.erp.stm.action.DeliveryBillAction" method="query">
+			<result name="success" type="tiles">delivery.index</result>
+		</action>
+		
+		<action name="deliveryBillModi" class="com.erp.stm.action.DeliveryBillModiAction" method="init">
+			<result name="success" type="tiles">deliveryModi.index</result>
+		</action>
+
 	</package>
 </struts>

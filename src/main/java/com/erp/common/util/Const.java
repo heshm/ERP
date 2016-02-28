@@ -13,6 +13,10 @@ public class Const {
 	public static final String DOCKET_TYPE_1 = "1";      //采购入库
 	public static final String DOCKET_TYPE_2 = "2";      //生产入库
 	
+	//出库单据类型
+	public static final String DOCKET_TYPE_3 = "3";     //采购退货
+	public static final String DOCKET_TYPE_4 = "4";     //领用退库
+	
 	//单据状态
 	public static final String BILL_UNCONFIRM = "0";  //未审核
 	public static final String BILL_CONFIRM = "1"; //已审核
@@ -33,5 +37,7 @@ public class Const {
 	public static final String DEFAULT_EMPTY_STRING = "";
 	
 	public static final int DEFAULT_DEC_NO = 2;
+	
+	public static final int BILL_LENGTH = 14;
 
 }

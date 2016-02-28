@@ -7,50 +7,32 @@ $(document).ready(function(){
 	
 });
 function getPageData(index){
-	var htmlAddress = "receiptBillQuery.action?index=" + index;
+	var htmlAddress = "deliveryBillQuery.action?index=" + index;
 	document.queryForm.action = htmlAddress;
 	document.queryForm.submit();
 }
 function getBillDetail(billNo){
-	var docketType = $("#docketType").val();
-	var htmlAddress = "receiptBillModiInit.action?update=1&docketType=" + docketType + "&receiptNo=" + billNo;
+	var htmlAddress = "deliveryBillModi.action?update=1&" + "deliveryNo=" + billNo;
 	location.href = htmlAddress;
 }
-function deleteOneReceipt(billNo){
-	var htmlAddress = "receiptBillDelete.action?receiptNo=" + billNo;
-	var msg = "确定删除单号为:" + billNo + "的记录?";
-	if(confirm(msg)){
-		location.href = htmlAddress;
-	}
-}
-function checkOneReceipt(billNo){
-	var docketType = $("#docketType").val();
-	var htmlAddress = "receiptBillCheck.action?docketType=" + docketType + "&receiptNo=" + billNo;
-	var msg = "确定审核单号为:" + billNo + "的记录?";
-	if(confirm(msg)){
-		location.href = htmlAddress;
-	}
-}
-
 </script>
 </head>
 <div class="title_right">
-  <s:if test="%{docketType==1}">
-    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建采购入库单</a></span>
-    <strong>采购入库单查询</strong>
+  <s:if test="%{#session.docketType==3}">
+    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建采购退货单</a></span>
+    <strong>采购退货单查询</strong>
   </s:if>
-  <s:if test="%{docketType==2}">
-    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=2" role="button"><i class="icon-plus icon-white"></i>新建生产入库单</a></span>
-    <strong>生产入库单查询</strong>
+  <s:if test="%{#session.docketType==4}">
+    <span class="pull-right margin-bottom-5"><a class="btn btn-info btn-small" id="modal-9735581" href="receiptBillModiInit?update=0&docketType=1" role="button"><i class="icon-plus icon-white"></i>新建领用退库单</a></span>
+    <strong>领用退库单查询</strong>
   </s:if>
 </div>  
 <div style="width:900px; margin:auto;">
   <table class="table table-bordered">
-    <s:form name="queryForm" method="post" action="receiptBillQuery" namespace="/stm" theme="simple">
-    <s:hidden id="docketType" name="docketType"/>
+    <s:form name="queryForm" method="post" action="deliveryBillQuery" namespace="/stm" theme="simple">
     <tr>
       <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">单据号码：</td>
-      <td width="23%"><s:textfield name="receiptNo"  class="span2" theme="simple"/></td>
+      <td width="23%"><s:textfield name="deliveryNo"  class="span2" theme="simple"/></td>
       <td width="10%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">开单时间：</td>
       <td width="43%">
         <s:textfield name="startDate" class="laydate-icon span1-1" id="Calendar1" theme="simple"/>
@@ -75,44 +57,41 @@ function checkOneReceipt(billNo){
       <tr align="center">
         <td nowrap="nowrap"><strong>序号</strong></td>
         <td nowrap="nowrap"><strong>单据号码</strong></td>
-        <td nowrap="nowrap"><strong>入库人</strong></td>
-        <td nowrap="nowrap"><strong>审核人</strong></td>
+        <td nowrap="nowrap"><strong>制单人</strong></td>
+        <td nowrap="nowrap"><strong>领用/退货人</strong></td>
         <td nowrap="nowrap"><strong>审核状态</strong></td>
+        <td nowrap="nowrap"><strong>出库日期</strong></td>
         <td nowrap="nowrap"><strong>制单日期</strong></td>
+         <td nowrap="nowrap"><strong>审核人</strong></td>
         <td nowrap="nowrap"><strong>审核日期</strong></td>
-        <td nowrap="nowrap"><strong>入库日期</strong></td>
-        <td width="80" nowrap="nowrap"><strong> 操作 </strong></td>
+        <td width="80" nowrap="nowrap"><strong>操作</strong></td>
       </tr>
       <s:set name="sn" value="1"/>
       <s:iterator var="pageData" value="%{page.pageData}">
       <tr align="center">
         <td nowrap="nowrap"><s:property value="#sn"/></td>
-        <!--  
-        <td nowrap="nowrap">
-          <s:if test="%{#pageData.type==1}">采购入库</s:if>
-          <s:if test="%{#pageData.type==2}">生产入库</s:if>
-        </td>
-        -->
-        <td nowrap="nowrap"><s:property value="#pageData.receiptNo"/></td>
+        <td nowrap="nowrap"><s:property value="#pageData.deliveryNo"/></td>
         <td nowrap="nowrap"><s:property value="#pageData.registrant"/></td>
-        <td nowrap="nowrap"><s:property value="#pageData.auditor"/></td>
+        <td nowrap="nowrap"><s:property value="#pageData.consumer"/></td>
+        
         <td nowrap="nowrap">
           <s:if test="%{#pageData.status==0}"><span style="color:#f00;">未审核</span></s:if>
           <s:if test="%{#pageData.status==1}">已审核</s:if>
         </td>
+        <td nowrap="nowrap"><s:property value="#pageData.outDate"/></td>
         <td nowrap="nowrap"><s:property value="#pageData.writeDate.substring(0,10)"/></td>
+        <td nowrap="nowrap"><s:property value="#pageData.auditor"/></td>
         <td nowrap="nowrap"><s:property value="#pageData.confirmDate.substring(0,10)"/></td>
-        <td><s:property value="#pageData.enterDate"/></td>
         <td nowrap="nowrap">
           <s:if test="%{#pageData.status==0}">
-            <a href="javascript:deleteOneReceipt('<s:property value="#pageData.receiptNo"/>');">删除</a> 
-            <a href="javascript:getBillDetail('<s:property value="#pageData.receiptNo"/>')">详情</a>
-            <a href="javascript:checkOneReceipt('<s:property value="#pageData.receiptNo"/><s:property value="#productType.typeId"/>');">审核</a>
+            <a href="javascript:deleteOneReceipt('<s:property value="#pageData.deliveryNo"/>');">删除</a> 
+            <a href="javascript:getBillDetail('<s:property value="#pageData.deliveryNo"/>')">详情</a>
+            <a href="javascript:checkOneReceipt('<s:property value="#pageData.deliveryNo"/><s:property value="#productType.typeId"/>');">审核</a>
             <span style="color: #999999;cursor: default;background-color: transparent;">反审</span>
           </s:if>
           <s:else>
             <span style="color: #999999;cursor: default;background-color: transparent;">删除</span> 
-            <a href="javascript:getBillDetail('<s:property value="#pageData.receiptNo"/>')">详情</a>
+            <a href="javascript:getBillDetail('<s:property value="#pageData.deliveryNo"/>')">详情</a>
             <span style="color: #999999;cursor: default;background-color: transparent;">审核</span>
             <a href="javascript:updateOneProductType('<s:property value="#productType.groupId"/><s:property value="#productType.typeId"/>');">反审</a>
           </s:else>

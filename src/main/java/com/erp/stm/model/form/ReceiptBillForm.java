@@ -27,10 +27,10 @@ public class ReceiptBillForm implements Serializable{
 	public ReceiptBillForm(Receipt receipt){
 		this.receipt = receipt;
 		if(null != receipt.getWriteDate()){
-			this.writeDate = CommonUtil.dateFormat(receipt.getWriteDate(), Const.DEFAULT_DATE_FORMAT);
+			this.writeDate = CommonUtil.dataFormat(receipt.getWriteDate());
 		}
 		if(null != receipt.getConfirmDate()){
-			this.confirmDate = CommonUtil.dateFormat(receipt.getConfirmDate(), Const.DEFAULT_DATE_FORMAT);
+			this.confirmDate =  CommonUtil.dataFormat(receipt.getConfirmDate());
 		}
 	}
 	
@@ -42,10 +42,10 @@ public class ReceiptBillForm implements Serializable{
 		this.receipt = receipt;;
 		this.receiptDetail = receiptDetail;
 		if(null != receipt.getWriteDate()){
-			this.writeDate = CommonUtil.dateFormat(receipt.getWriteDate(), Const.DEFAULT_DATE_FORMAT);
+			this.writeDate = CommonUtil.dataFormat(receipt.getWriteDate());
 		}
 		if(null != receipt.getConfirmDate()){
-			this.confirmDate = CommonUtil.dateFormat(receipt.getConfirmDate(), Const.DEFAULT_DATE_FORMAT);
+			this.confirmDate =  CommonUtil.dataFormat(receipt.getConfirmDate());
 		}
 	}
 	

@@ -20,8 +20,21 @@ public class ReceiptDetailDAO implements IReceiptDetailDAO{
 		this.sqlSession = sqlSession;
 	}
 	
+	@Override
 	public List<ReceiptDetail> selectMulReceiptDetail(@SuppressWarnings("rawtypes") Map parmMap) {
 		return sqlSession.selectList(SELECT_MUL_RECEIPT_DETAIL, parmMap);
+	}
+
+	@Override
+	public int deleteReceiptDetail(@SuppressWarnings("rawtypes") Map parmMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete(DELETE_RECEIPT_DETAIL,parmMap);
+	}
+
+	@Override
+	public int insertReceiptDetail(Map parmMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(INSERT_RECEIPT_DETAIL, parmMap);
 	}
 
 }

@@ -63,4 +63,11 @@ public class ReceiptService implements IReceiptService {
 		return receiptDAO.deleteOneReceipt(map);
 	}
 
+
+	@Override
+	public String getReceiptSeq(String depotId) {
+		// TODO Auto-generated method stub
+		return receiptDAO.getReceiptSeq(depotId);
+	}
+
 }
